@@ -1,6 +1,8 @@
 package com.example.note_rmgs_android;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
@@ -14,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.note_rmgs_android.Adapter.CategoryAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView img_icon;
     @BindView(R.id.img_right)
     ImageView img_right;
+    CategoryAdapter categoryAdapter;
 
 
     @Override
@@ -39,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        categoryAdapter=new CategoryAdapter();
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(),2);
+        category_recycler.setLayoutManager(mLayoutManager);
+        category_recycler.setAdapter(categoryAdapter);
 
 
     }
