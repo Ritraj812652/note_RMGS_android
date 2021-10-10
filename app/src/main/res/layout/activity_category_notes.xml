@@ -43,7 +43,7 @@
             android:textSize="@dimen/txt_20"/>
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/note_recycler"
+        android:id="@+id/category_note_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="visible"
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="No Categories "
+            android:text="No Notes "
             android:textColor="@android:color/black"
             android:textSize="@dimen/view_30"
             android:textStyle="bold|italic" />
