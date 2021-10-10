@@ -40,7 +40,18 @@
             android:gravity="center"
             android:layout_height="@dimen/view_45" />
 
-
+        <ImageView
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:padding="@dimen/view_10"
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/view_5"
+            android:src="@drawable/ic_baseline_add_24"
+            android:layout_toLeftOf="@+id/img_right"
+            android:layout_centerVertical="true"
+            android:id="@+id/img_icon"
+            android:gravity="center"
+            android:layout_height="@dimen/view_50" />
         <ImageView
             android:background="@android:color/transparent"
             android:layout_width="wrap_content"
