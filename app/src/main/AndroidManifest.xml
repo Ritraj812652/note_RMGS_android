@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Note_RMGS_android">
         <activity
+            android:name=".Category_Notes"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
