@@ -107,6 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                 android:id="@+id/view_layout"
                 android:layout_marginRight="@dimen/margin_10"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_10"
@@ -136,16 +137,29 @@
  </LinearLayout>
 
             <Button
-                android:id="@+id/select_subject"
+                android:id="@+id/save"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/button_bg"
-                android:text="Select Subject"
+                android:text="Save"
                 android:textAllCaps="false"
                 android:textColor="#fff" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Move to another Subject"
+                android:layout_gravity="center"
+                android:padding="@dimen/margin_5"
+                android:gravity="center"
+                android:id="@+id/select_subject"
+                android:layout_marginTop="@dimen/margin_10"
+                android:textSize="@dimen/textSize_14"
+                android:textColor="@color/colorAccent"/>
 
 
         </LinearLayout>

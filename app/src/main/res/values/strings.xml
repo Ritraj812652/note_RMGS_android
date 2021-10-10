@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">note_RMGS_android</string>
+    <string name="another_subject">Move to another subject</string>
 </resources>
