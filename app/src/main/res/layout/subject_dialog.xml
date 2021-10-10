@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_marginBottom="5dp"
+    android:layout_height="wrap_content"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_50"
+        android:layout_gravity="right"
+        android:background="@color/colorAccent"
+        android:id="@+id/linear"
+        >
+
+        <TextView
+            android:id="@+id/sub_txt1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Add New Subject"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_14" />
+
+        <ImageView
+            android:id="@+id/cross"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:padding="@dimen/view_5"
+            android:src="@drawable/ic_baseline_cancel_24" />
+    </RelativeLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_50"
+        android:id="@+id/sub_txt"
+        android:hint="Add Subject here"
+        android:layout_marginTop="@dimen/view_10"
+        android:layout_marginLeft="@dimen/view_10"
+        android:layout_marginRight="@dimen/view_10"
+        android:paddingTop="@dimen/view_5"
+        android:paddingBottom="@dimen/view_5"
+        android:inputType="textCapWords"
+        android:imeOptions="actionNext"
+        android:background="@drawable/edittext_bg"
+        android:focusable="true"
+        android:textColorHint="@color/grey"
+        android:focusableInTouchMode="true"/>
+
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:textColor="@color/white"
+        android:id="@+id/save"
+        android:layout_marginLeft="@dimen/view_20"
+        android:background="@drawable/button_bg"
+        android:layout_marginBottom="@dimen/view_15"
+        android:layout_marginTop="@dimen/view_20"
+        android:layout_marginRight="@dimen/view_20"
+        />
+
+
+
+</LinearLayout>
