@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/view_50"
         android:layout_gravity="right"
-        android:background="@color/colorAccent"
+        android:background="@color/white"
         android:id="@+id/linear"
         >
 
@@ -24,8 +24,9 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Add New Subject"
-            android:textColor="@color/white"
-            android:textSize="@dimen/txt_14" />
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/txt_20" />
 
         <ImageView
             android:id="@+id/cross"
