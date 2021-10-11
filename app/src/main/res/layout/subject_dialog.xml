@@ -46,6 +46,7 @@
         android:layout_marginLeft="@dimen/view_10"
         android:layout_marginRight="@dimen/view_10"
         android:paddingTop="@dimen/view_5"
+        android:paddingLeft="@dimen/margin_5"
         android:paddingBottom="@dimen/view_5"
         android:inputType="textCapWords"
         android:imeOptions="actionNext"

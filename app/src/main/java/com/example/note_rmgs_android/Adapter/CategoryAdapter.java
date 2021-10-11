@@ -62,6 +62,7 @@ public abstract class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapt
         @Override
         public void onClick(View v) {
             Intent i=new Intent(context, Category_Notes.class);
+            i.putExtra("name",list.get(getAdapterPosition()).getName());
              context.startActivity(i);
         }
     }

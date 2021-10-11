@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.4"
             android:text="Cancel"
+            android:id="@+id/cancel"
             android:layout_gravity="center"
             android:textSize="@dimen/txt_20"/>
     </LinearLayout>

@@ -32,8 +32,8 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.category_recycler)
     RecyclerView category_recycler;
-    @BindView(R.id.no_notes)
-    RelativeLayout no_notes;
+    @BindView(R.id.no_categories)
+    RelativeLayout no_categories;
     @BindView(R.id.txt_heading)
     TextView txt_heading;
     @BindView(R.id.img_left)
@@ -51,8 +51,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        txt_heading.setText("Categories");
+        img_left.setVisibility(View.VISIBLE);
+        img_right.setVisibility(View.VISIBLE);
+        img_icon.setVisibility(View.GONE);
         SubjectD dao = Database.getInstance(getApplicationContext()).subjectDeo();
         mlist = dao.getAllSubject();
+        if(mlist.size()==0){
+            no_categories.setVisibility(View.VISIBLE);
+            category_recycler.setVisibility(View.GONE);
+        }else {
+            no_categories.setVisibility(View.GONE);
+            category_recycler.setVisibility(View.VISIBLE);
+        }
         categoryAdapter= new CategoryAdapter(this, mlist) {
             @Override
             public void deleteCategory(int pos) {
