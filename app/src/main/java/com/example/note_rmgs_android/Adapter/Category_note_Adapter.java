@@ -1,6 +1,7 @@
 package com.example.note_rmgs_android.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.note_rmgs_android.Add_Edit_Note;
 import com.example.note_rmgs_android.Models.Note;
 import com.example.note_rmgs_android.Models.Subject;
 import com.example.note_rmgs_android.R;
@@ -64,7 +66,9 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
 
         @Override
         public void onClick(View v) {
-
+                     Intent i=new Intent(context, Add_Edit_Note.class);
+                     i.putExtra("from","update");
+                     context.startActivity(i);
         }
     }
 }
