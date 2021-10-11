@@ -89,8 +89,7 @@ public class Note {
         this.subject_fk = subject_fk;
     }
 
-    public Note(int note_id, String title, String description, double latitude, double longitude, byte[] image, String audio, long created_date, int subject_fk) {
-        this.note_id = note_id;
+    public Note(String title, String description, double latitude, double longitude, byte[] image, String audio, long created_date, int subject_fk) {
         this.title = title;
         this.description = description;
         this.latitude = latitude;

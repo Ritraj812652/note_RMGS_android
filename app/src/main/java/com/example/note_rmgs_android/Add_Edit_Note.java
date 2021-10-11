@@ -19,15 +19,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.note_rmgs_android.Database.Database;
 import com.example.note_rmgs_android.Models.Note;
 import com.example.note_rmgs_android.Models.Subject;
+import com.example.note_rmgs_android.Utils.DataConverter;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class Add_Edit_Note extends AppCompatActivity {
 
@@ -57,11 +61,12 @@ public class Add_Edit_Note extends AppCompatActivity {
     Button save;
     @BindView(R.id.select_subject)
     TextView select_subject;
-    String from="",name="";
+    String from="",name="",pathAudio;
     Location userlocation;
     LocationManager locationManager;
     LocationListener listener;
     Bitmap image;
+    Subject subjectdata;
     private static final int REQUEST_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +77,13 @@ public class Add_Edit_Note extends AppCompatActivity {
         from=i.getStringExtra("from");
         name=i.getStringExtra("name");
         img_left.setVisibility(View.VISIBLE);
-        img_right.setVisibility(View.GONE);
         img_icon.setVisibility(View.GONE);
         img_left.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_ios_24));
         txt_heading.setText(""+name);
 
         if(from.equalsIgnoreCase("new")){
+            img_right.setVisibility(View.GONE);
+
             save.setText("Save");
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             listener = new LocationListener() {
@@ -108,11 +114,47 @@ public class Add_Edit_Note extends AppCompatActivity {
                 UpdateLocation();
 
         }else {
-
+            img_right.setVisibility(View.VISIBLE);
+            img_right.setImageDrawable(getResources().getDrawable(R.drawable.delete_white));
             save.setText("Update");
             UpdateNotes();
 
 
+        }
+    }
+
+    @OnClick(R.id.save)
+    public void Save_editNote(){
+
+        if(from.equalsIgnoreCase("new")) {
+            if (CheckFields()) {
+                Note note;
+                if (image != null) {
+
+                    note = new Note(new_title.getText().toString(),note_description.getText().toString(), userlocation.getLatitude(), userlocation.getLongitude(),DataConverter.convertImage2ByteArray(image), pathAudio, new Date().getTime(), subjectdata.getSubject_id());
+                } else {
+                    note = new Note( new_title.getText().toString(),note_description.getText().toString(), userlocation.getLatitude(), userlocation.getLongitude(), null, pathAudio,new Date().getTime(), subjectdata.getSubject_id() );
+                }
+                Database.getInstance(this).noteDeo().insertNote(note);
+
+            }
+        }else {
+            if(CheckFields()) {
+                List<Note> notes = Database.getInstance(this).noteDeo().getAllNotes();
+                int id = getIntent().getIntExtra("ID",-1);
+                if (id != -1){
+                    Note note = notes.get(id);
+                    note.setTitle(new_title.getText().toString());
+                    note.setDescription(note_description.getText().toString());
+                    note.setAudio(pathAudio);
+                    note.setSubject_fk(subjectdata.getSubject_id());
+                    if(image != null){
+                        note.setImage(DataConverter.convertImage2ByteArray(image));
+                    }
+                    Database.getInstance(this).noteDeo().updateNote(note);
+                }
+
+            }
         }
     }
 
@@ -130,7 +172,7 @@ public class Add_Edit_Note extends AppCompatActivity {
                 _pic.setVisibility(View.VISIBLE);
             }
             Subject sub = Database.getInstance(this).subjectDeo().getSubject(note.getSubject_fk()).get(0);
-
+             subjectdata=sub;
 
         }
     }
@@ -157,5 +199,23 @@ public class Add_Edit_Note extends AppCompatActivity {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, listener);
             }
         }
+    }
+
+    public boolean CheckFields(){
+
+        if (new_title.getText().toString().trim().length() == 0) {
+            new_title.setError("Please enter title");
+            new_title.requestFocus();
+            return false;
+
+        }else if(note_description.getText().toString().trim().length() == 0) {
+
+            note_description.setError("Please enter description");
+            note_description.requestFocus();
+            return false;
+        }
+        return true;
+
+
     }
 }
