@@ -77,6 +77,7 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
                      Intent i=new Intent(context, Add_Edit_Note.class);
                      i.putExtra("from","update");
                      i.putExtra("name",name);
+                     i.putExtra("ID",getAdapterPosition());
                      context.startActivity(i);
         }
     }

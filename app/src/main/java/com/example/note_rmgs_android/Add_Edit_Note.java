@@ -1,5 +1,6 @@
 package com.example.note_rmgs_android;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -7,6 +8,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,6 +19,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.note_rmgs_android.Database.Database;
+import com.example.note_rmgs_android.Models.Note;
+import com.example.note_rmgs_android.Models.Subject;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +61,8 @@ public class Add_Edit_Note extends AppCompatActivity {
     Location userlocation;
     LocationManager locationManager;
     LocationListener listener;
+    Bitmap image;
+    private static final int REQUEST_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +110,26 @@ public class Add_Edit_Note extends AppCompatActivity {
         }else {
 
             save.setText("Update");
-            getAndSetNotes();
+            UpdateNotes();
+
+
+        }
+    }
+
+    private void UpdateNotes() {
+        List<Note> notes = Database.getInstance(this).noteDeo().getAllNotes();
+        int id = getIntent().getIntExtra("ID",-1);
+        if (id != -1){
+            Note note = notes.get(id);
+            new_title.setText(note.getTitle());
+            note_description.setText(note.getDescription());
+            byte[] data = note.getImage();
+            if(data != null){
+                image = DataConverter.convertByteArray2Bitmap(data);
+                _pic.setImageBitmap(image);
+                _pic.setVisibility(View.VISIBLE);
+            }
+            Subject sub = Database.getInstance(this).subjectDeo().getSubject(note.getSubject_fk()).get(0);
 
 
         }
@@ -119,5 +148,14 @@ public class Add_Edit_Note extends AppCompatActivity {
 
     private boolean hasLocationPermission() {
         return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (REQUEST_CODE == requestCode) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, listener);
+            }
+        }
     }
 }

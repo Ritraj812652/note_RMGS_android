@@ -20,4 +20,6 @@ public interface SubjectD {
     void updateSubject(Subject subject);
     @Delete
     void deleteSubject(Subject subject);
+    @Query("SELECT * FROM Subject WHERE subject_id = :id")
+    List<Subject> getSubject(int id);
 }
