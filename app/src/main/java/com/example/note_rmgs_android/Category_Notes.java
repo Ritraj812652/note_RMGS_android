@@ -72,7 +72,7 @@ public class Category_Notes extends AppCompatActivity {
             category_note_recycler.setVisibility(View.VISIBLE);
         }
 
-        categoryNoteAdapter=new Category_note_Adapter(this,mlist);
+        categoryNoteAdapter=new Category_note_Adapter(this,mlist,Database.getInstance(getApplicationContext()).subjectDeo().getAllSubject());
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(),2);
         category_note_recycler.setLayoutManager(mLayoutManager);
         category_note_recycler.setAdapter(categoryNoteAdapter);
@@ -83,6 +83,7 @@ public class Category_Notes extends AppCompatActivity {
     public void AddNote(){
         Intent i=new Intent(getApplicationContext(),Add_Edit_Note.class);
         i.putExtra("from","new");
+        i.putExtra("name",name);
         startActivity(i);
     }
 

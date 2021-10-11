@@ -23,11 +23,13 @@ import java.util.List;
 public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Adapter.Viewholder> {
     public Context context;
     public List<Note> list;
+    public List<Subject> subjects;
 
 
-    public Category_note_Adapter(Context context, List<Note> list) {
+    public Category_note_Adapter(Context context, List<Note> list,List<Subject> subjects) {
         this.context = context;
         this.list = list;
+        this.subjects=subjects;
     }
 
     @NonNull
@@ -66,8 +68,15 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
 
         @Override
         public void onClick(View v) {
+            String name="";
+            for(Subject sub:subjects) {
+                if (sub.getSubject_id() == list.get(getAdapterPosition()).getSubject_fk()) {
+                     name=sub.getName();
+                }
+            }
                      Intent i=new Intent(context, Add_Edit_Note.class);
                      i.putExtra("from","update");
+                     i.putExtra("name",name);
                      context.startActivity(i);
         }
     }
