@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
         img_left.setVisibility(View.VISIBLE);
         img_right.setVisibility(View.VISIBLE);
         img_icon.setVisibility(View.GONE);
+        img_left.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_sort_by_alpha_24));
+        img_right.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_add_24));
+
+
         SubjectD dao = Database.getInstance(getApplicationContext()).subjectDeo();
         mlist = dao.getAllSubject();
         if(mlist.size()==0){

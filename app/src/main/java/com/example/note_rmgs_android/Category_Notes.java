@@ -24,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class Category_Notes extends AppCompatActivity {
     @BindView(R.id.txt_heading)
@@ -54,6 +55,10 @@ public class Category_Notes extends AppCompatActivity {
         img_left.setVisibility(View.VISIBLE);
         img_right.setVisibility(View.VISIBLE);
         img_icon.setVisibility(View.VISIBLE);
+        img_left.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_ios_24));
+        img_right.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_add_24));
+        img_icon.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_sort_by_alpha_24));
+
         Intent i=getIntent();
         name=i.getStringExtra("name");
         txt_heading.setText(""+name);
@@ -73,5 +78,16 @@ public class Category_Notes extends AppCompatActivity {
         category_note_recycler.setAdapter(categoryNoteAdapter);
 
 
+    }
+    @OnClick(R.id.img_right)
+    public void AddNote(){
+        Intent i=new Intent(getApplicationContext(),Add_Edit_Note.class);
+        i.putExtra("from","new");
+        startActivity(i);
+    }
+
+    @OnClick(R.id.img_left)
+    public void BackClick(){
+        finish();
     }
 }
