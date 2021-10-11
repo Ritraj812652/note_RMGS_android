@@ -17,9 +17,9 @@ import com.example.note_rmgs_android.R;
 
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Viewholder> {
+public abstract class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Viewholder> {
     public Context context;
-    List<Subject> list;
+    public List<Subject> list;
     public CategoryAdapter(Context context, List<Subject> allSubject) {
         this.context = context;
         this.list = allSubject;
@@ -35,6 +35,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Viewho
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.Viewholder holder, int position) {
         holder.category_title.setText(list.get(position).getName());
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteCategory(position);
+            }
+        });
     }
 
     @Override
@@ -48,7 +54,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Viewho
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             category_title=(TextView)itemView.findViewById(R.id.category_title);
-            category_date=(TextView) itemView.findViewById(R.id.category_date);
             delete=(ImageView)itemView.findViewById(R.id.sub_delete);
 
             itemView.setOnClickListener(this);
@@ -60,4 +65,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Viewho
              context.startActivity(i);
         }
     }
+
+    public abstract void deleteCategory(int pos);
 }

@@ -42,14 +42,6 @@
                 android:src="@drawable/ic_baseline_delete_forever_24" />
 
         </RelativeLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/category_date"
-            android:textColor="@android:color/black"
-            android:text="abddd"
-            android:padding="@dimen/margin_5"
-            android:layout_centerVertical="true"
-            android:textSize="@dimen/txt_12"/>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

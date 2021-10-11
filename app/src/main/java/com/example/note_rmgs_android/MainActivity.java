@@ -53,7 +53,49 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         SubjectD dao = Database.getInstance(getApplicationContext()).subjectDeo();
         mlist = dao.getAllSubject();
-        categoryAdapter=new CategoryAdapter(this,mlist);
+        categoryAdapter= new CategoryAdapter(this, mlist) {
+            @Override
+            public void deleteCategory(int pos) {
+                final AlertDialog.Builder mainDialog = new AlertDialog.Builder(MainActivity.this);
+                LayoutInflater inflater = (LayoutInflater)getApplicationContext() .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View dialogView = inflater.inflate(R.layout.alert_dialog, null);
+                mainDialog.setView(dialogView);
+
+                final Button cancel = (Button) dialogView.findViewById(R.id.cancel);
+                final Button save = (Button) dialogView.findViewById(R.id.save);
+                final ImageView cross=(ImageView) dialogView.findViewById(R.id.cross);
+                final TextView cat_name=(TextView)dialogView.findViewById(R.id.cat_name);
+                final AlertDialog alertDialog = mainDialog.create();
+                alertDialog.show();
+                cat_name.setText("You want to delete this Category?");
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        alertDialog.dismiss();
+
+                    }
+                });
+
+                save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //delete item
+                        SubjectD dao = Database.getInstance(getApplicationContext()).subjectDeo();
+                       dao.deleteSubject( list.get(pos));
+                        list.remove(pos);
+                        categoryAdapter.notifyDataSetChanged();
+                        alertDialog.dismiss();
+                    }
+                });
+                cross.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+            }
+        };
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(),2);
         category_recycler.setLayoutManager(mLayoutManager);
         category_recycler.setAdapter(categoryAdapter);
@@ -82,7 +124,8 @@ public class MainActivity extends AppCompatActivity {
                 SubjectD dao = Database.getInstance(getApplicationContext()).subjectDeo();
                 dao.insertSubject(subject);
                 Toast.makeText(getApplicationContext(),"Data Added",Toast.LENGTH_LONG).show();
-                mlist = dao.getAllSubject();
+                categoryAdapter.list.clear();
+                categoryAdapter.list.addAll(dao.getAllSubject());
                 categoryAdapter.notifyDataSetChanged();
                 alertDialog.dismiss();
             }
