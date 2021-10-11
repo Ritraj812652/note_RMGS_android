@@ -22,14 +22,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/view_5">
+
             <TextView
+                android:id="@+id/note_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/note_date"
-                android:textColor="@android:color/black"
-                android:text="abddd"
                 android:layout_centerVertical="true"
-                android:textSize="@dimen/txt_12"/>
+                android:text="abddd"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/txt_12" />
 
 
             <ImageView

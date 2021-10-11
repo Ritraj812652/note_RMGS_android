@@ -1,6 +1,8 @@
 package com.example.note_rmgs_android;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.note_rmgs_android.Adapter.Category_note_Adapter;
 import com.example.note_rmgs_android.Dao.NoteD;
 import com.example.note_rmgs_android.Dao.SubjectD;
 import com.example.note_rmgs_android.Database.Database;
@@ -41,6 +44,7 @@ public class Category_Notes extends AppCompatActivity {
     RelativeLayout no_notes;
     String name="";
     List<Note> mlist;
+    Category_note_Adapter categoryNoteAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,11 @@ public class Category_Notes extends AppCompatActivity {
             no_notes.setVisibility(View.GONE);
             category_note_recycler.setVisibility(View.VISIBLE);
         }
+
+        categoryNoteAdapter=new Category_note_Adapter(this,mlist);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(),2);
+        category_note_recycler.setLayoutManager(mLayoutManager);
+        category_note_recycler.setAdapter(categoryNoteAdapter);
 
 
     }
