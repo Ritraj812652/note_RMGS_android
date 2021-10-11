@@ -12,10 +12,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.note_rmgs_android.Category_Notes;
+import com.example.note_rmgs_android.Models.Subject;
 import com.example.note_rmgs_android.R;
+
+import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Viewholder> {
     public Context context;
+    List<Subject> list;
+    public CategoryAdapter(Context context, List<Subject> allSubject) {
+        this.context = context;
+        this.list = allSubject;
+    }
+
     @NonNull
     @Override
     public CategoryAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -25,12 +34,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Viewho
 
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.Viewholder holder, int position) {
-
+        holder.category_title.setText(list.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return 4;
+        return list.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -48,7 +57,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Viewho
         @Override
         public void onClick(View v) {
             Intent i=new Intent(context, Category_Notes.class);
-            context.startActivity(i);
+             context.startActivity(i);
         }
     }
 }

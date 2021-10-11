@@ -16,8 +16,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.note_rmgs_android.Adapter.CategoryAdapter;
+import com.example.note_rmgs_android.Dao.SubjectD;
+import com.example.note_rmgs_android.Database.Database;
+import com.example.note_rmgs_android.Models.Subject;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView img_icon;
     @BindView(R.id.img_right)
     ImageView img_right;
+    List<Subject> mlist;
     CategoryAdapter categoryAdapter;
 
 
@@ -44,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        categoryAdapter=new CategoryAdapter();
+        SubjectD dao = Database.getInstance(getApplicationContext()).subjectDeo();
+        mlist = dao.getAllSubject();
+        categoryAdapter=new CategoryAdapter(this,mlist);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(),2);
         category_recycler.setLayoutManager(mLayoutManager);
         category_recycler.setAdapter(categoryAdapter);
@@ -68,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //save item
+                Subject subject = new Subject();
+                subject.setName(sub.getText().toString());
+                SubjectD dao = Database.getInstance(getApplicationContext()).subjectDeo();
+                dao.insertSubject(subject);
+                Toast.makeText(getApplicationContext(),"Data Added",Toast.LENGTH_LONG).show();
+                mlist = dao.getAllSubject();
+                categoryAdapter.notifyDataSetChanged();
                 alertDialog.dismiss();
             }
         });

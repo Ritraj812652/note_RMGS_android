@@ -13,7 +13,10 @@ public class Database {
         if (db != null) {
             return db;
         } else {
-            return db = Room.databaseBuilder(context, Db.class, "User").allowMainThreadQueries().build();
+            return db = Room.databaseBuilder(context,
+                    Db.class,
+                    "NotesDatabase")
+                    .allowMainThreadQueries().build();
         }
 
 
