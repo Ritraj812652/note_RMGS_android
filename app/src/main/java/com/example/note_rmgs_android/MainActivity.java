@@ -141,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Data Added",Toast.LENGTH_LONG).show();
                 categoryAdapter.list.clear();
                 categoryAdapter.list.addAll(dao.getAllSubject());
+                no_categories.setVisibility(View.GONE);
+                category_recycler.setVisibility(View.VISIBLE);
                 categoryAdapter.notifyDataSetChanged();
                 alertDialog.dismiss();
             }

@@ -6,12 +6,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.note_rmgs_android.Adapter.Category_note_Adapter;
 import com.example.note_rmgs_android.Dao.NoteD;
@@ -20,6 +24,7 @@ import com.example.note_rmgs_android.Database.Database;
 import com.example.note_rmgs_android.Models.Note;
 import com.example.note_rmgs_android.Models.Subject;
 
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -90,8 +95,10 @@ public class Category_Notes extends AppCompatActivity {
         startActivity(i);
     }
 
+
     @OnClick(R.id.img_left)
     public void BackClick(){
-        finish();
+        Intent i=new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(i);
     }
 }

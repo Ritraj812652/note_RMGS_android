@@ -99,6 +99,8 @@ public class Add_Edit_Note extends AppCompatActivity {
             listener = new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
+
+
                     userlocation = location;
                 }
 
@@ -133,6 +135,11 @@ public class Add_Edit_Note extends AppCompatActivity {
         }
     }
 
+    @OnClick(R.id.img_left)
+    public void BackClick(){
+        finish();
+    }
+
     @OnClick(R.id.save)
     public void Save_editNote(){
 
@@ -140,13 +147,28 @@ public class Add_Edit_Note extends AppCompatActivity {
             if (CheckFields()) {
                 Note note;
                 if (image != null) {
+                    if (userlocation == null) {
+                        note = new Note(new_title.getText().toString(), note_description.getText().toString(), 0, 0, DataConverter.convertImage2ByteArray(image), pathAudio, new Date().getTime(), id);
 
-                    note = new Note(new_title.getText().toString(),note_description.getText().toString(), userlocation.getLatitude(), userlocation.getLongitude(),DataConverter.convertImage2ByteArray(image), pathAudio, new Date().getTime(), id);
-                } else {
-                    note = new Note( new_title.getText().toString(),note_description.getText().toString(), userlocation.getLatitude(), userlocation.getLongitude(), null, pathAudio,new Date().getTime(),id );
+                    } else {
+                        note = new Note(new_title.getText().toString(), note_description.getText().toString(), userlocation.getLatitude(), userlocation.getLongitude(), DataConverter.convertImage2ByteArray(image), pathAudio, new Date().getTime(), id);
+                    }
+                }
+
+                else {
+                    if (userlocation == null) {
+                        note = new Note(new_title.getText().toString(), note_description.getText().toString(), 0, 0, DataConverter.convertImage2ByteArray(image), pathAudio, new Date().getTime(), id);
+
+                    } else {
+                        note = new Note(new_title.getText().toString(), note_description.getText().toString(), userlocation.getLatitude(), userlocation.getLongitude(), null, pathAudio, new Date().getTime(), id);
+                    }
                 }
                 Database.getInstance(this).noteDeo().insertNote(note);
-              finish();
+                Intent i=new Intent(getApplicationContext(),Category_Notes.class);
+                i.putExtra("from",from);
+                i.putExtra("name",name);
+                i.putExtra("SubjectID",id);
+                startActivity(i);
 
             }
         }else {
@@ -163,7 +185,11 @@ public class Add_Edit_Note extends AppCompatActivity {
                         note.setImage(DataConverter.convertImage2ByteArray(image));
                     }
                     Database.getInstance(this).noteDeo().updateNote(note);
-                   finish();
+                    Intent i=new Intent(getApplicationContext(),Category_Notes.class);
+                    i.putExtra("from",from);
+                    i.putExtra("name",name);
+                    i.putExtra("SubjectID",id);
+                    startActivity(i);
                 }
 
             }
