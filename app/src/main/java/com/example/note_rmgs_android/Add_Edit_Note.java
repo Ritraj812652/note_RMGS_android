@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.note_rmgs_android.Dao.SubjectD;
 import com.example.note_rmgs_android.Database.Database;
 import com.example.note_rmgs_android.Models.Note;
 import com.example.note_rmgs_android.Models.Subject;
@@ -147,6 +148,16 @@ public class Add_Edit_Note extends AppCompatActivity {
         finish();
     }
 
+    @OnClick(R.id.img_right)
+    public void deleteClick(){
+        List<Note> notes = Database.getInstance(this).noteDeo().getAllNotes();
+        int id = getIntent().getIntExtra("noteID",-1);
+        if (id != -1) {
+            Database.getInstance(this).noteDeo().deleteNote(Database.getInstance(this).noteDeo().getSpecficNote(id));
+            BackClick();
+        }
+    }
+
     @OnClick(R.id.save)
     public void Save_editNote(){
 
@@ -164,7 +175,7 @@ public class Add_Edit_Note extends AppCompatActivity {
 
                 else {
                     if (userlocation == null) {
-                        note = new Note(new_title.getText().toString(), note_description.getText().toString(), 0, 0, DataConverter.convertImage2ByteArray(image), pathAudio, new Date().getTime(), id);
+                        note = new Note(new_title.getText().toString(), note_description.getText().toString(), 0, 0, null, pathAudio, new Date().getTime(), id);
 
                     } else {
                         note = new Note(new_title.getText().toString(), note_description.getText().toString(), userlocation.getLatitude(), userlocation.getLongitude(), null, pathAudio, new Date().getTime(), id);

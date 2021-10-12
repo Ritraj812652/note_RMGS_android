@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.note_rmgs_android.Add_Edit_Note;
+import com.example.note_rmgs_android.MapsActivity;
 import com.example.note_rmgs_android.Models.Note;
 import com.example.note_rmgs_android.Models.Subject;
 import com.example.note_rmgs_android.R;
@@ -68,26 +69,34 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
 
         @Override
         public void onClick(View v) {
-            String name="";
-            int id = -1;
-            for(Subject sub:subjects) {
-                if (sub.getSubject_id() == list.get(getAdapterPosition()).getSubject_fk()) {
-                     name=sub.getName();
-                     id=sub.getSubject_id();
+            if(v == location){
+                Intent i=new Intent(context, MapsActivity.class);
+                i.putExtra("noteID",list.get(getAdapterPosition()).getNote_id());
+                context.startActivity(i);
+            }
+            else {
+                String name = "";
+                int id = -1;
+                for (Subject sub : subjects) {
+                    if (sub.getSubject_id() == list.get(getAdapterPosition()).getSubject_fk()) {
+                        name = sub.getName();
+                        id = sub.getSubject_id();
+                    }
                 }
-            }
-                     Intent i=new Intent(context, Add_Edit_Note.class);
-                     i.putExtra("from","update");
-                     i.putExtra("name",name);
-                     i.putExtra("ID",getAdapterPosition());
-                     i.putExtra("SubjectID",id);
-            byte[] data = list.get(getAdapterPosition()).getImage();
-            if(data != null) {
-                i.putExtra("photo",data);
-            }
+                Intent i = new Intent(context, Add_Edit_Note.class);
+                i.putExtra("from", "update");
+                i.putExtra("name", name);
+                i.putExtra("ID", getAdapterPosition());
+                i.putExtra("noteID", list.get(getAdapterPosition()).getNote_id());
+                i.putExtra("SubjectID", id);
+                byte[] data = list.get(getAdapterPosition()).getImage();
+                if (data != null) {
+                    i.putExtra("photo", data);
+                }
 
 
-            context.startActivity(i);
+                context.startActivity(i);
+            }
         }
     }
 }
