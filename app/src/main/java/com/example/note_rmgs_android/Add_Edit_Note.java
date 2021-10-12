@@ -372,6 +372,16 @@ public class Add_Edit_Note extends AppCompatActivity {
     {
         selectImage();
     }
+    @OnClick(R.id.select_subject)
+    public void selectSubject(){
+        Intent i=new Intent(getApplicationContext(), MainActivity.class);
+        int id = getIntent().getIntExtra("noteID",-1);
+        if (id != -1) {
+            i.putExtra("noteID",id);
+            startActivity(i);
+        }
 
+
+    }
 
 }

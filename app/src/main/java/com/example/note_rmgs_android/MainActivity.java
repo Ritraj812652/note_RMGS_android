@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.note_rmgs_android.Adapter.CategoryAdapter;
 import com.example.note_rmgs_android.Dao.SubjectD;
 import com.example.note_rmgs_android.Database.Database;
+import com.example.note_rmgs_android.Models.Note;
 import com.example.note_rmgs_android.Models.Subject;
 
 import java.util.List;
@@ -51,12 +52,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        txt_heading.setText("Categories");
-        img_left.setVisibility(View.VISIBLE);
-        img_right.setVisibility(View.VISIBLE);
+        int id = getIntent().getIntExtra("noteID",-1);
+        if (id != -1) {
+            txt_heading.setText("Move Note");
+            img_left.setVisibility(View.GONE);
+            img_right.setVisibility(View.GONE);
+        }
+        else{
+            txt_heading.setText("Categories");
+            img_left.setVisibility(View.VISIBLE);
+            img_right.setVisibility(View.VISIBLE);
+            img_left.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_sort_by_alpha_24));
+            img_right.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_add_24));
+        }
+
+
         img_icon.setVisibility(View.GONE);
-        img_left.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_sort_by_alpha_24));
-        img_right.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_add_24));
+
 
 
         SubjectD dao = Database.getInstance(getApplicationContext()).subjectDeo();
@@ -109,6 +121,25 @@ public class MainActivity extends AppCompatActivity {
                         alertDialog.dismiss();
                     }
                 });
+            }
+
+            @Override
+            public void selectCategory(int pos) {
+                int id = getIntent().getIntExtra("noteID",-1);
+                if (id != -1) {
+                    Note n = Database.getInstance(getApplicationContext()).noteDeo().getSpecficNote(id);
+                    n.setSubject_fk(list.get(pos).getSubject_id());
+                    Database.getInstance(getApplicationContext()).noteDeo().updateNote(n);
+                    finish();
+                }
+                else{
+                    Intent i=new Intent(context, Category_Notes.class);
+                    i.putExtra("name",list.get(pos).getName());
+                    i.putExtra("ID",pos);
+                    i.putExtra("SubjectID",list.get(pos).getSubject_id());
+                    startActivity(i);
+                }
+
             }
         };
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(),2);
