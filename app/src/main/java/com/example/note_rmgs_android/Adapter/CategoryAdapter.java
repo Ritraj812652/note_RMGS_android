@@ -1,5 +1,6 @@
 package com.example.note_rmgs_android.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -33,7 +34,7 @@ public abstract class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapt
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoryAdapter.Viewholder holder, int position) {
+    public void onBindViewHolder(@NonNull CategoryAdapter.Viewholder holder, @SuppressLint("RecyclerView") int position) {
         holder.category_title.setText(list.get(position).getName());
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +64,8 @@ public abstract class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapt
         public void onClick(View v) {
             Intent i=new Intent(context, Category_Notes.class);
             i.putExtra("name",list.get(getAdapterPosition()).getName());
+            i.putExtra("ID",getAdapterPosition());
+            i.putExtra("SubjectID",list.get(getAdapterPosition()).getSubject_id());
              context.startActivity(i);
         }
     }

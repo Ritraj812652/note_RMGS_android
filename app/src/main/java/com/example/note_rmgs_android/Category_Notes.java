@@ -44,6 +44,7 @@ public class Category_Notes extends AppCompatActivity {
     @BindView(R.id.no_notes)
     RelativeLayout no_notes;
     String name="";
+    int id;
     List<Note> mlist;
     Category_note_Adapter categoryNoteAdapter;
 
@@ -61,6 +62,7 @@ public class Category_Notes extends AppCompatActivity {
 
         Intent i=getIntent();
         name=i.getStringExtra("name");
+        id=i.getIntExtra("SubjectID",-1);
         txt_heading.setText(""+name);
         NoteD dao = Database.getInstance(getApplicationContext()).noteDeo();
         mlist = dao.getAllNotes();
@@ -84,6 +86,7 @@ public class Category_Notes extends AppCompatActivity {
         Intent i=new Intent(getApplicationContext(),Add_Edit_Note.class);
         i.putExtra("from","new");
         i.putExtra("name",name);
+        i.putExtra("SubjectID",id);
         startActivity(i);
     }
 

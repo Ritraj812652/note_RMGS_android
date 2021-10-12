@@ -69,16 +69,20 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
         @Override
         public void onClick(View v) {
             String name="";
+            int id = -1;
             for(Subject sub:subjects) {
                 if (sub.getSubject_id() == list.get(getAdapterPosition()).getSubject_fk()) {
                      name=sub.getName();
+                     id=sub.getSubject_id();
                 }
             }
                      Intent i=new Intent(context, Add_Edit_Note.class);
                      i.putExtra("from","update");
                      i.putExtra("name",name);
                      i.putExtra("ID",getAdapterPosition());
-                     context.startActivity(i);
+            i.putExtra("SubjectID",id);
+
+            context.startActivity(i);
         }
     }
 }

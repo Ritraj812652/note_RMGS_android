@@ -66,6 +66,7 @@ public class Add_Edit_Note extends AppCompatActivity {
     LocationManager locationManager;
     LocationListener listener;
     Bitmap image;
+    int id;
     Subject subjectdata;
     private static final int REQUEST_CODE = 1;
     @Override
@@ -76,6 +77,8 @@ public class Add_Edit_Note extends AppCompatActivity {
         Intent i=getIntent();
         from=i.getStringExtra("from");
         name=i.getStringExtra("name");
+        id=i.getIntExtra("SubjectID",-1);
+
         img_left.setVisibility(View.VISIBLE);
         img_icon.setVisibility(View.GONE);
         img_left.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_ios_24));
@@ -131,9 +134,9 @@ public class Add_Edit_Note extends AppCompatActivity {
                 Note note;
                 if (image != null) {
 
-                    note = new Note(new_title.getText().toString(),note_description.getText().toString(), userlocation.getLatitude(), userlocation.getLongitude(),DataConverter.convertImage2ByteArray(image), pathAudio, new Date().getTime(), subjectdata.getSubject_id());
+                    note = new Note(new_title.getText().toString(),note_description.getText().toString(), userlocation.getLatitude(), userlocation.getLongitude(),DataConverter.convertImage2ByteArray(image), pathAudio, new Date().getTime(), id);
                 } else {
-                    note = new Note( new_title.getText().toString(),note_description.getText().toString(), userlocation.getLatitude(), userlocation.getLongitude(), null, pathAudio,new Date().getTime(), subjectdata.getSubject_id() );
+                    note = new Note( new_title.getText().toString(),note_description.getText().toString(), userlocation.getLatitude(), userlocation.getLongitude(), null, pathAudio,new Date().getTime(),id );
                 }
                 Database.getInstance(this).noteDeo().insertNote(note);
 
