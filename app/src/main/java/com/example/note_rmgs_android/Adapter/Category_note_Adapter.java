@@ -45,7 +45,7 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
         holder.note_title.setText(list.get(position).getTitle());
         holder.note_description.setText(list.get(position).getDescription());
         long millisecond = list.get(position).getCreated_date();
-        String dateString = DateFormat.format("MM/dd/yyyy", new Date(millisecond)).toString();
+        String dateString = DateFormat.format("MMM d, h:mm a", new Date(millisecond)).toString();
         holder.note_date.setText(dateString);
         holder.location.setOnClickListener(new View.OnClickListener() {
             @Override

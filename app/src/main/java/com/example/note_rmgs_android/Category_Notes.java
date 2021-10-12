@@ -1,6 +1,7 @@
 package com.example.note_rmgs_android;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -30,7 +32,11 @@ import com.example.note_rmgs_android.Models.Note;
 import com.example.note_rmgs_android.Models.Subject;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -108,6 +114,28 @@ public class Category_Notes extends AppCompatActivity {
         category_note_recycler.setLayoutManager(mLayoutManager);
         category_note_recycler.setAdapter(categoryNoteAdapter);
 
+    }
+    @OnClick(R.id.img_icon)
+    public void sort(){
+        PopupMenu popup = new PopupMenu(Category_Notes.this, img_icon);
+        //Inflating the Popup using xml file
+        popup.getMenuInflater().inflate(R.menu.sorting_menu, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                if(item.getTitle().equals("Title")){
+
+
+                }else {
+
+                }
+                categoryNoteAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+        popup.show();
     }
     @OnClick(R.id.img_right)
     public void AddNote(){
