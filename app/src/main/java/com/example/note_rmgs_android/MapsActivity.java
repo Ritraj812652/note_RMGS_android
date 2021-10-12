@@ -3,6 +3,7 @@ package com.example.note_rmgs_android;
 import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
+import android.text.format.DateFormat;
 
 import com.example.note_rmgs_android.Database.Database;
 import com.example.note_rmgs_android.Models.Note;
@@ -14,20 +15,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.note_rmgs_android.databinding.ActivityMapsBinding;
 
+import java.util.Date;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        int id = getIntent().getIntExtra("noteID",-1);
-        if (id != -1) {
-        Note note = Database.getInstance(this).noteDeo().getSpecficNote(id);
-        }
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -49,8 +48,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        int id = getIntent().getIntExtra("noteID",-1);
+        if (id != -1) {
+            Note note = Database.getInstance(this).noteDeo().getSpecficNote(id);
+            String date = DateFormat.format("MM/dd/yyyy", new Date(note.getCreated_date())).toString();
+            LatLng location = new LatLng(note.getLatitude(), note.getLongitude());
+            MarkerOptions options = new MarkerOptions().position(location)
+                    .title(note.getTitle())
+                    .snippet("Content " + note.getDescription()+" Date "+date);
+            mMap.addMarker(options);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+        }
+
     }
 }

@@ -47,6 +47,14 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
         long millisecond = list.get(position).getCreated_date();
         String dateString = DateFormat.format("MM/dd/yyyy", new Date(millisecond)).toString();
         holder.note_date.setText(dateString);
+        holder.location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(context, MapsActivity.class);
+                i.putExtra("noteID",list.get(position).getNote_id());
+                context.startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -69,12 +77,7 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
 
         @Override
         public void onClick(View v) {
-            if(v == location){
-                Intent i=new Intent(context, MapsActivity.class);
-                i.putExtra("noteID",list.get(getAdapterPosition()).getNote_id());
-                context.startActivity(i);
-            }
-            else {
+
                 String name = "";
                 int id = -1;
                 for (Subject sub : subjects) {
@@ -97,6 +100,6 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
 
                 context.startActivity(i);
             }
-        }
+
     }
 }
