@@ -80,7 +80,12 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
                      i.putExtra("from","update");
                      i.putExtra("name",name);
                      i.putExtra("ID",getAdapterPosition());
-            i.putExtra("SubjectID",id);
+                     i.putExtra("SubjectID",id);
+            byte[] data = list.get(getAdapterPosition()).getImage();
+            if(data != null) {
+                i.putExtra("photo",data);
+            }
+
 
             context.startActivity(i);
         }

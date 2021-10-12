@@ -76,6 +76,8 @@ public class Add_Edit_Note extends AppCompatActivity {
     private static final int REQUEST_CODE = 1;
     private static final int CAMERA_REQUEST = 102;
     private static final int GALLERY_REQUEST = 101;
+    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
+    private boolean permissionToRecordAccepted = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +87,12 @@ public class Add_Edit_Note extends AppCompatActivity {
         from=i.getStringExtra("from");
         name=i.getStringExtra("name");
         id=i.getIntExtra("SubjectID",-1);
-
+        byte[] data = i.getByteArrayExtra("photo");
+        if(data != null){
+            image = DataConverter.convertByteArray2Bitmap(data);
+            _pic.setImageBitmap(image);
+            _pic.setVisibility(View.VISIBLE);
+        }
         img_left.setVisibility(View.VISIBLE);
         img_icon.setVisibility(View.GONE);
         img_left.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_ios_24));
@@ -237,6 +244,12 @@ public class Add_Edit_Note extends AppCompatActivity {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, listener);
             }
         }
+        if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
+            permissionToRecordAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+        }
+        if (!permissionToRecordAccepted ){
+            Toast.makeText(getApplicationContext(),"Give permission to use mic",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public boolean CheckFields(){
@@ -348,4 +361,6 @@ public class Add_Edit_Note extends AppCompatActivity {
     {
         selectImage();
     }
+
+
 }

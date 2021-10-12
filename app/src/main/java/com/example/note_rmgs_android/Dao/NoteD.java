@@ -12,6 +12,8 @@ import java.util.List;
 
 @Dao
 public interface NoteD {
+    @Query("SELECT * FROM Note WHERE subject_fk = :id")
+    List<Note> getCatNotes(int id);
     @Query("SELECT * FROM Note ")
     List<Note> getAllNotes();
     @Insert

@@ -70,7 +70,7 @@ public class Category_Notes extends AppCompatActivity {
         id=i.getIntExtra("SubjectID",-1);
         txt_heading.setText(""+name);
         NoteD dao = Database.getInstance(getApplicationContext()).noteDeo();
-        mlist = dao.getAllNotes();
+        mlist = dao.getCatNotes(id);
         if(mlist.size()==0){
             no_notes.setVisibility(View.VISIBLE);
             category_note_recycler.setVisibility(View.GONE);
