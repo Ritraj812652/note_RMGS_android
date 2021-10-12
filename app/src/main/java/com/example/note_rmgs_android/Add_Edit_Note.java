@@ -88,12 +88,12 @@ public class Add_Edit_Note extends AppCompatActivity {
         from=i.getStringExtra("from");
         name=i.getStringExtra("name");
         id=i.getIntExtra("SubjectID",-1);
-        byte[] data = i.getByteArrayExtra("photo");
-        if(data != null){
-            image = DataConverter.convertByteArray2Bitmap(data);
-            _pic.setImageBitmap(image);
-            _pic.setVisibility(View.VISIBLE);
-        }
+//        byte[] data = i.getByteArrayExtra("photo");
+//        if(data != null){
+//            image = DataConverter.convertByteArray2Bitmap(data);
+//            _pic.setImageBitmap(image);
+//            _pic.setVisibility(View.VISIBLE);
+//        }
         img_left.setVisibility(View.VISIBLE);
         img_icon.setVisibility(View.GONE);
         img_left.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_ios_24));
@@ -191,10 +191,9 @@ public class Add_Edit_Note extends AppCompatActivity {
             }
         }else {
             if(CheckFields()) {
-                List<Note> notes = Database.getInstance(this).noteDeo().getAllNotes();
-                int id = getIntent().getIntExtra("ID",-1);
-                if (id != -1){
-                    Note note = notes.get(id);
+                int id = getIntent().getIntExtra("noteID",-1);
+                if (id != -1) {
+                    Note note = Database.getInstance(this).noteDeo().getSpecficNote(id);
                     note.setTitle(new_title.getText().toString());
                     note.setDescription(note_description.getText().toString());
                     note.setAudio(pathAudio);
@@ -206,7 +205,7 @@ public class Add_Edit_Note extends AppCompatActivity {
                     Intent i=new Intent(getApplicationContext(),Category_Notes.class);
                     i.putExtra("from",from);
                     i.putExtra("name",name);
-                    i.putExtra("SubjectID",id);
+                    i.putExtra("SubjectID",note.getSubject_fk());
                     startActivity(i);
                 }
 
@@ -215,10 +214,10 @@ public class Add_Edit_Note extends AppCompatActivity {
     }
 
     private void UpdateNotes() {
-        List<Note> notes = Database.getInstance(this).noteDeo().getAllNotes();
-        int id = getIntent().getIntExtra("ID",-1);
+
+        int id = getIntent().getIntExtra("noteID",-1);
         if (id != -1){
-            Note note = notes.get(id);
+            Note note = Database.getInstance(this).noteDeo().getSpecficNote(id);
             new_title.setText(note.getTitle());
             note_description.setText(note.getDescription());
             byte[] data = note.getImage();

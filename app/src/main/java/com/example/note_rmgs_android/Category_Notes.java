@@ -5,12 +5,17 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -25,6 +30,7 @@ import com.example.note_rmgs_android.Models.Note;
 import com.example.note_rmgs_android.Models.Subject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -79,11 +85,28 @@ public class Category_Notes extends AppCompatActivity {
             category_note_recycler.setVisibility(View.VISIBLE);
         }
 
+
+        search_txt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                search_note(s.toString());
+
+            }
+        });
         categoryNoteAdapter=new Category_note_Adapter(this,mlist,Database.getInstance(getApplicationContext()).subjectDeo().getAllSubject());
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(),2);
         category_note_recycler.setLayoutManager(mLayoutManager);
         category_note_recycler.setAdapter(categoryNoteAdapter);
-
 
     }
     @OnClick(R.id.img_right)
@@ -94,11 +117,30 @@ public class Category_Notes extends AppCompatActivity {
         i.putExtra("SubjectID",id);
         startActivity(i);
     }
-
+    @OnClick(R.id.cancel)
+    public void cancel(){
+        mlist =  Database.getInstance(this).noteDeo().getCatNotes(id);
+        search_txt.setText("");
+        categoryNoteAdapter.updateList(mlist);
+        search_txt.setFocusable(false);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+    }
 
     @OnClick(R.id.img_left)
     public void BackClick(){
         Intent i=new Intent(getApplicationContext(),MainActivity.class);
         startActivity(i);
+    }
+    private void search_note(String text) {
+        mlist =  Database.getInstance(this).noteDeo().getCatNotes(id);
+        List<Note> temp = new ArrayList();
+        for (Note n :mlist) {
+            if(n.getTitle().toLowerCase().contains(text.toLowerCase()) || n.getDescription().toLowerCase().contains(text.toLowerCase())){
+                temp.add(n);
+            }
+        }
+       categoryNoteAdapter.updateList(temp);
+
     }
 }

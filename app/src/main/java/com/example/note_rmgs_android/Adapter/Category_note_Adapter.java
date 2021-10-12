@@ -92,14 +92,16 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
                 i.putExtra("ID", getAdapterPosition());
                 i.putExtra("noteID", list.get(getAdapterPosition()).getNote_id());
                 i.putExtra("SubjectID", id);
-                byte[] data = list.get(getAdapterPosition()).getImage();
-                if (data != null) {
-                    i.putExtra("photo", data);
-                }
+
 
 
                 context.startActivity(i);
             }
 
+    }
+    public void updateList(List<Note> xlist){
+        list.clear();
+        list.addAll(xlist);
+        notifyDataSetChanged();
     }
 }

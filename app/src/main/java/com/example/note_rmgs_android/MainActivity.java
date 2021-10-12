@@ -130,15 +130,14 @@ public class MainActivity extends AppCompatActivity {
                     Note n = Database.getInstance(getApplicationContext()).noteDeo().getSpecficNote(id);
                     n.setSubject_fk(list.get(pos).getSubject_id());
                     Database.getInstance(getApplicationContext()).noteDeo().updateNote(n);
-                    finish();
+                    Toast.makeText(getApplicationContext(),"Note moved successfully.",Toast.LENGTH_SHORT).show();
                 }
-                else{
                     Intent i=new Intent(context, Category_Notes.class);
                     i.putExtra("name",list.get(pos).getName());
                     i.putExtra("ID",pos);
                     i.putExtra("SubjectID",list.get(pos).getSubject_id());
                     startActivity(i);
-                }
+
 
             }
         };
