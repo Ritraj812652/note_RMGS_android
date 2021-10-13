@@ -62,6 +62,8 @@ public class Category_Notes extends AppCompatActivity {
     RelativeLayout no_notes;
     String name="";
     int id;
+    Boolean title_sort = false;
+    Boolean date_sort = false;
     List<Note> mlist;
     Category_note_Adapter categoryNoteAdapter;
 
@@ -126,11 +128,31 @@ public class Category_Notes extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
 
                 if(item.getTitle().equals("Title")){
-
-
+                    if(title_sort){
+                        Collections.sort(mlist, (a, b) -> b.getTitle().compareToIgnoreCase(a.getTitle()));
+                    }
+                    else{
+                        Collections.sort(mlist, (a, b) -> a.getTitle().compareToIgnoreCase(b.getTitle()));
+                    }
+                    title_sort = (title_sort == false)? true : false;
                 }else {
-
+                    if(date_sort) {
+                        Collections.sort(mlist, (a, b) -> {
+                            if (a.getCreated_date() > b.getCreated_date()) return 1;
+                            else if (a.getCreated_date() < b.getCreated_date()) return -1;
+                            else return 0;
+                        });
+                    }
+                    else{
+                        Collections.sort(mlist, (a, b) -> {
+                            if (a.getCreated_date() < b.getCreated_date()) return 1;
+                            else if (a.getCreated_date() > b.getCreated_date()) return -1;
+                            else return 0;
+                        });
+                    }
+                    date_sort = (date_sort == false)? true : false;
                 }
+
                 categoryNoteAdapter.notifyDataSetChanged();
                 return true;
             }
