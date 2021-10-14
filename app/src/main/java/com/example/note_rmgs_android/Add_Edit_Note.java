@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,7 +15,10 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -31,6 +35,7 @@ import com.example.note_rmgs_android.Models.Note;
 import com.example.note_rmgs_android.Models.Subject;
 import com.example.note_rmgs_android.Utils.DataConverter;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -61,8 +66,6 @@ public class Add_Edit_Note extends AppCompatActivity {
     LinearLayout view_layout;
     @BindView(R.id._pic)
     ImageView _pic;
-    @BindView(R.id.play)
-    ImageView play;
     @BindView(R.id.save)
     Button save;
     @BindView(R.id.select_subject)
@@ -74,11 +77,17 @@ public class Add_Edit_Note extends AppCompatActivity {
     Bitmap image;
     int id;
     Subject subjectdata;
+    MediaRecorder rec = new MediaRecorder();
+    MediaPlayer mp = new MediaPlayer();
+
     private static final int REQUEST_CODE = 1;
     private static final int CAMERA_REQUEST = 102;
     private static final int GALLERY_REQUEST = 101;
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private boolean permissionToRecordAccepted = false;
+    private final String [] permissions = {Manifest.permission.RECORD_AUDIO,Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +107,8 @@ public class Add_Edit_Note extends AppCompatActivity {
         img_icon.setVisibility(View.GONE);
         img_left.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_ios_24));
         txt_heading.setText(""+name);
+        voice_picker.setVisibility(View.GONE);
+
 
         if(from.equalsIgnoreCase("new")){
             img_right.setVisibility(View.GONE);
@@ -221,10 +232,14 @@ public class Add_Edit_Note extends AppCompatActivity {
             new_title.setText(note.getTitle());
             note_description.setText(note.getDescription());
             byte[] data = note.getImage();
+            pathAudio=note.getAudio();
             if(data != null){
                 image = DataConverter.convertByteArray2Bitmap(data);
                 _pic.setImageBitmap(image);
                 _pic.setVisibility(View.VISIBLE);
+            }
+            if(pathAudio!=null){
+                voice_picker.setVisibility(View.VISIBLE);
             }
             Subject sub = Database.getInstance(this).subjectDeo().getSubject(note.getSubject_fk()).get(0);
              subjectdata=sub;
@@ -254,12 +269,7 @@ public class Add_Edit_Note extends AppCompatActivity {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, listener);
             }
         }
-        if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
-            permissionToRecordAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-        }
-        if (!permissionToRecordAccepted ){
-            Toast.makeText(getApplicationContext(),"Give permission to use mic",Toast.LENGTH_SHORT).show();
-        }
+
     }
 
     public boolean CheckFields(){
@@ -291,6 +301,8 @@ public class Add_Edit_Note extends AppCompatActivity {
 
         }
         else if(reqCode == 112 && resultCode == RESULT_OK){
+            pathAudio = data.getStringExtra("audio");
+            voice_picker.setVisibility(View.VISIBLE);
 
         }
         else if(reqCode == GALLERY_REQUEST && resultCode == RESULT_OK){
@@ -340,7 +352,10 @@ public class Add_Edit_Note extends AppCompatActivity {
                 } else if (items[item].equals("Choose from Library")) {
                     OpenGallery();
                 } else if(items[item].equals("Record Audio")){
-
+                    Intent i=new Intent(getApplicationContext(),AudioActivity.class);
+                    i.putExtra("from","new");
+                    i.putExtra("path","");
+                    startActivityForResult(i,112);
                 }
                 else if(items[item].equals("Cancel")){
                     dialog.dismiss();
@@ -369,18 +384,22 @@ public class Add_Edit_Note extends AppCompatActivity {
     @OnClick(R.id.image_picker)
     public void getIamge()
     {
+
         selectImage();
     }
-    @OnClick(R.id.select_subject)
-    public void selectSubject(){
-        Intent i=new Intent(getApplicationContext(), MainActivity.class);
-        int id = getIntent().getIntExtra("noteID",-1);
-        if (id != -1) {
-            i.putExtra("noteID",id);
-            startActivity(i);
+
+    @OnClick(R.id.voice_picker)
+    public void playAudio(){
+            Intent i=new Intent(getApplicationContext(),AudioActivity.class);
+            i.putExtra("from","update");
+            i.putExtra("path",pathAudio);
+            startActivityForResult(i,112);
         }
 
 
-    }
+
+
+
+
 
 }

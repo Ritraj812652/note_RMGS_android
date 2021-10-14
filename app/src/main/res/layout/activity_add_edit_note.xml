@@ -121,17 +121,10 @@
                 android:layout_marginRight="@dimen/margin_10"
                 android:adjustViewBounds="true"
                 android:padding="5dp"
-                android:layout_weight="1.2"
+                android:layout_weight="2"
                 android:scaleType="fitXY"
                 android:visibility="visible" />
 
-                 <ImageView
-                     android:layout_width="0dp"
-                     android:layout_height="wrap_content"
-                     android:layout_weight="0.8"
-                     android:layout_gravity="center"
-                     android:id="@+id/play"
-                     android:src="@drawable/ic_baseline_play_circle_filled_24"/>
 
  </LinearLayout>
 
