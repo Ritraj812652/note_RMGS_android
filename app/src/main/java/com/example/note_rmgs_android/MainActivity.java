@@ -24,6 +24,7 @@ import com.example.note_rmgs_android.Database.Database;
 import com.example.note_rmgs_android.Models.Note;
 import com.example.note_rmgs_android.Models.Subject;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.img_right)
     ImageView img_right;
     List<Subject> mlist;
+    Boolean title_sort = false;
     CategoryAdapter categoryAdapter;
 
 
@@ -147,6 +149,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    @OnClick(R.id.img_left)
+    public void sort(){
+
+        if(title_sort){
+            Collections.sort(mlist, (a, b) -> b.getName().compareToIgnoreCase(a.getName()));
+            Toast.makeText(getApplicationContext(),"Category sort in descending order!",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Collections.sort(mlist, (a, b) -> a.getName().compareToIgnoreCase(b.getName()));
+            Toast.makeText(getApplicationContext(),"Category sort in ascending order!",Toast.LENGTH_SHORT).show();
+        }
+        title_sort = (title_sort == false)? true : false;
+        categoryAdapter.notifyDataSetChanged();
+    }
+
     @OnClick(R.id.img_right)
     public void AddSubject() {
         final AlertDialog.Builder mainDialog = new AlertDialog.Builder(MainActivity.this);
