@@ -2,6 +2,8 @@ package com.example.note_rmgs_android.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.example.note_rmgs_android.R;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Adapter.Viewholder> {
     public Context context;
@@ -47,6 +50,15 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
         long millisecond = list.get(position).getCreated_date();
         String dateString = DateFormat.format("MMM d, h:mm a", new Date(millisecond)).toString();
         holder.note_date.setText(dateString);
+        Random r = new Random();
+        int red=r.nextInt(255 - 0 + 1)+0;
+        int green=r.nextInt(255 - 0 + 1)+0;
+        int blue=r.nextInt(255 - 0 + 1)+0;
+
+        GradientDrawable draw = new GradientDrawable();
+        //draw.setShape(GradientDrawable.OVAL);
+        draw.setColor(Color.rgb(red,green,blue));
+        holder.itemView.setBackground(draw);
         holder.location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
