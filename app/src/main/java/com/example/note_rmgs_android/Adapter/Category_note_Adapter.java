@@ -50,15 +50,15 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
         long millisecond = list.get(position).getCreated_date();
         String dateString = DateFormat.format("MMM d, h:mm a", new Date(millisecond)).toString();
         holder.note_date.setText(dateString);
-        Random r = new Random();
-        int red=r.nextInt(255 - 0 + 1)+0;
-        int green=r.nextInt(255 - 0 + 1)+0;
-        int blue=r.nextInt(255 - 0 + 1)+0;
-
-        GradientDrawable draw = new GradientDrawable();
-        //draw.setShape(GradientDrawable.OVAL);
-        draw.setColor(Color.rgb(red,green,blue));
-        holder.itemView.setBackground(draw);
+//        Random r = new Random();
+//        int red=r.nextInt(255 - 0 + 1)+0;
+//        int green=r.nextInt(255 - 0 + 1)+0;
+//        int blue=r.nextInt(255 - 0 + 1)+0;
+//
+//        GradientDrawable draw = new GradientDrawable();
+//        //draw.setShape(GradientDrawable.OVAL);
+//        draw.setColor(Color.rgb(red,green,blue));
+//        holder.itemView.setBackground(draw);
         holder.location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
