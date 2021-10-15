@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.img_right)
     ImageView img_right;
-    List<Group> mlist;
+
+    List<Group> listViews;
     Boolean title_sort = false;
     CategoryAdapter categoryAdapter;
 
@@ -75,15 +76,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         GroupDao dao = Database.getInstance(getApplicationContext()).groupDeo();
-        mlist = dao.getAllSubject();
-        if(mlist.size()==0){
+        listViews = dao.getAllSubject();
+        if(listViews.size()==0){
             no_categories.setVisibility(View.VISIBLE);
             category_recycler.setVisibility(View.GONE);
         }else {
             no_categories.setVisibility(View.GONE);
             category_recycler.setVisibility(View.VISIBLE);
         }
-        categoryAdapter= new CategoryAdapter(this, mlist) {
+        categoryAdapter= new CategoryAdapter(this, listViews) {
 
 
             @Override
@@ -156,11 +157,11 @@ public class MainActivity extends AppCompatActivity {
     public void sort(){
 
         if(title_sort){
-            Collections.sort(mlist, (a, b) -> b.getName().compareToIgnoreCase(a.getName()));
+            Collections.sort(listViews, (a, b) -> b.getName().compareToIgnoreCase(a.getName()));
             Toast.makeText(getApplicationContext(),"Category sort in descending order!",Toast.LENGTH_SHORT).show();
         }
         else{
-            Collections.sort(mlist, (a, b) -> a.getName().compareToIgnoreCase(b.getName()));
+            Collections.sort(listViews, (a, b) -> a.getName().compareToIgnoreCase(b.getName()));
             Toast.makeText(getApplicationContext(),"Category sort in ascending order!",Toast.LENGTH_SHORT).show();
         }
         title_sort = (title_sort == false)? true : false;

@@ -32,20 +32,28 @@ import butterknife.OnClick;
 public class Category_Notes extends AppCompatActivity {
     @BindView(R.id.txt_heading)
     TextView txt_heading;
+
     @BindView(R.id.img_left)
     ImageView img_left;
+
     @BindView(R.id.img_icon)
     ImageView img_icon;
+
     @BindView(R.id.img_right)
     ImageView img_right;
+
     @BindView(R.id.search_txt)
     EditText search_txt;
+
     @BindView(R.id.cancel)
     TextView cancel;
+
     @BindView(R.id.category_note_recycler)
     RecyclerView category_note_recycler;
+
     @BindView(R.id.no_notes)
     RelativeLayout no_notes;
+
     String name="";
     int id;
     Boolean title_sort = false;
@@ -65,6 +73,8 @@ public class Category_Notes extends AppCompatActivity {
         img_right.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_add_24));
         img_icon.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_sort_by_alpha_24));
 
+
+
         Intent i=getIntent();
         name=i.getStringExtra("name");
         id=i.getIntExtra("SubjectID",-1);
@@ -78,6 +88,7 @@ public class Category_Notes extends AppCompatActivity {
             no_notes.setVisibility(View.GONE);
             category_note_recycler.setVisibility(View.VISIBLE);
         }
+
 
 
         search_txt.addTextChangedListener(new TextWatcher() {
@@ -103,6 +114,8 @@ public class Category_Notes extends AppCompatActivity {
         category_note_recycler.setAdapter(categoryNoteAdapter);
 
     }
+    // sort
+
     @OnClick(R.id.img_icon)
     public void sort(){
         PopupMenu popup = new PopupMenu(Category_Notes.this, img_icon);
