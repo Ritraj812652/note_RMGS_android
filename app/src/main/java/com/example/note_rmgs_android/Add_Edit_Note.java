@@ -379,7 +379,7 @@ public class Add_Edit_Note extends AppCompatActivity {
                 id=subjectID;
                 if(subjectID != -1){
 
-                    for (Group sub: Database.getInstance(this).subjectDeo().getAllSubject()) {
+                    for (Group sub: Database.getInstance(this).groupDeo().getAllSubject()) {
                         if(sub.getGroup_id() == subjectID){
                             subjectdata = sub;
                         }
