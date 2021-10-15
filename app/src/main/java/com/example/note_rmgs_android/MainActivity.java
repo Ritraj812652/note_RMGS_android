@@ -170,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    @OnClick(R.id.img_left)
     public void sort(){
 
         if(title_sort){
@@ -185,7 +184,6 @@ public class MainActivity extends AppCompatActivity {
         categoryAdapter.notifyDataSetChanged();
     }
 
-//    @OnClick(R.id.img_right)
     public void AddSubject() {
         final AlertDialog.Builder mainDialog = new AlertDialog.Builder(MainActivity.this);
         LayoutInflater inflater = (LayoutInflater)getApplicationContext() .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
