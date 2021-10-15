@@ -16,7 +16,7 @@ public class Database {
             return db = Room.databaseBuilder(context,
                     Db.class,
                     "NotesDatabase")
-                    .fallbackToDestructiveMigration()
+//                    .fallbackToDestructiveMigration()
                     .allowMainThreadQueries().build();
         }
 
