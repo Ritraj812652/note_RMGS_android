@@ -86,7 +86,7 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
                 String name = "";
                 int id = -1;
                 for (Group sub : groups) {
-                    if (sub.getGroup_id() == list.get(getAdapterPosition()).getSubject_fk()) {
+                    if (sub.getGroup_id() == list.get(getAdapterPosition()).getGroup_fk()) {
                         name = sub.getName();
                         id = sub.getGroup_id();
                     }

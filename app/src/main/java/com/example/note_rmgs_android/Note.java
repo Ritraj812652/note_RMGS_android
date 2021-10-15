@@ -16,7 +16,7 @@ public class Note {
     private byte[] image;
     private String audio;
     private long created_date;
-    private int subject_fk;
+    private int group_fk;
 
     public int getNote_id() {
         return note_id;
@@ -82,15 +82,15 @@ public class Note {
         this.created_date = created_date;
     }
 
-    public int getSubject_fk() {
-        return subject_fk;
+    public int getGroup_fk() {
+        return group_fk;
     }
 
-    public void setSubject_fk(int subject_fk) {
-        this.subject_fk = subject_fk;
+    public void setGroup_fk(int group_fk) {
+        this.group_fk = group_fk;
     }
 
-    public Note(String title, String description, double latitude, double longitude, byte[] image, String audio, long created_date, int subject_fk) {
+    public Note(String title, String description, double latitude, double longitude, byte[] image, String audio, long created_date, int group_fk) {
         this.title = title;
         this.description = description;
         this.latitude = latitude;
@@ -98,6 +98,6 @@ public class Note {
         this.image = image;
         this.audio = audio;
         this.created_date = created_date;
-        this.subject_fk = subject_fk;
+        this.group_fk = group_fk;
     }
 }

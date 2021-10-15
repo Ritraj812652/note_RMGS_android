@@ -16,7 +16,7 @@ public interface NoteD {
     Note getSpecficNote(int id);
 
 
-    @Query("SELECT * FROM Note WHERE subject_fk = :id")
+    @Query("SELECT * FROM Note WHERE group_fk = :id")
     List<Note> getCatNotes(int id);
 
 

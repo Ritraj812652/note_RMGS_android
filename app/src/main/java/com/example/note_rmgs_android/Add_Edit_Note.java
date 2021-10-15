@@ -179,7 +179,7 @@ public class Add_Edit_Note extends AppCompatActivity {
                 if(pathAudio!=null){
                     voice_picker.setVisibility(View.VISIBLE);
                 }
-                Group sub = Database.getInstance(this).groupDeo().getSubject(note.getSubject_fk()).get(0);
+                Group sub = Database.getInstance(this).groupDeo().getSubject(note.getGroup_fk()).get(0);
                 subjectdata=sub;
 
             }
@@ -258,7 +258,7 @@ public class Add_Edit_Note extends AppCompatActivity {
                     note.setTitle(new_title.getText().toString());
                     note.setDescription(note_description.getText().toString());
                     note.setAudio(pathAudio);
-                    note.setSubject_fk(subjectdata.getGroup_id());
+                    note.setGroup_fk(subjectdata.getGroup_id());
                     if(image != null){
                         note.setImage(DataConverter.convertImage2ByteArray(image));
                     }
@@ -266,7 +266,7 @@ public class Add_Edit_Note extends AppCompatActivity {
                     Intent i=new Intent(getApplicationContext(),Category_Notes.class);
                     i.putExtra("from",from);
                     i.putExtra("name",name);
-                    i.putExtra("SubjectID",note.getSubject_fk());
+                    i.putExtra("SubjectID",note.getGroup_fk());
                     startActivity(i);
                 }
 

@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 int id = getIntent().getIntExtra("noteID",-1);
                 if (id != -1) {
                     Note n = Database.getInstance(getApplicationContext()).noteDeo().getSpecficNote(id);
-                    n.setSubject_fk(list.get(pos).getGroup_id());
+                    n.setGroup_fk(list.get(pos).getGroup_id());
                     Database.getInstance(getApplicationContext()).noteDeo().updateNote(n);
                     Toast.makeText(getApplicationContext(),"Note moved successfully.",Toast.LENGTH_SHORT).show();
                 }
