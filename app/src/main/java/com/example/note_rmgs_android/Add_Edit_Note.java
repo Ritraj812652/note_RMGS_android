@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,7 +17,6 @@ import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -29,13 +27,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.note_rmgs_android.Dao.SubjectD;
 import com.example.note_rmgs_android.Database.Database;
-import com.example.note_rmgs_android.Models.Note;
-import com.example.note_rmgs_android.Models.Subject;
-import com.example.note_rmgs_android.Utils.DataConverter;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -46,40 +39,59 @@ import butterknife.OnClick;
 
 public class Add_Edit_Note extends AppCompatActivity {
 
+
+    // adding binding using butterKn library
     @BindView(R.id.txt_heading)
     TextView txt_heading;
-    @BindView(R.id.img_left)
-    ImageView img_left;
-    @BindView(R.id.img_icon)
-    ImageView img_icon;
-    @BindView(R.id.img_right)
-    ImageView img_right;
+
     @BindView(R.id.new_title)
     EditText new_title;
+
     @BindView(R.id.note_description)
     EditText note_description;
+
     @BindView(R.id.image_picker)
     ImageView image_picker;
+
     @BindView(R.id.voice_picker)
     ImageView voice_picker;
+
     @BindView(R.id.view_layout)
     LinearLayout view_layout;
+
+    @BindView(R.id.img_left)
+    ImageView img_left;
+
+    @BindView(R.id.img_icon)
+    ImageView img_icon;
+
+    @BindView(R.id.img_right)
+    ImageView img_right;
+
     @BindView(R.id._pic)
     ImageView _pic;
+
     @BindView(R.id.save)
     Button save;
+
     @BindView(R.id.select_subject)
     TextView select_subject;
+
+    // Initiating properties
+
     String from="",name="",pathAudio;
     Location userlocation;
     LocationManager locationManager;
     LocationListener listener;
+    Category_note_Adapter categoryNoteAdapter;
     Bitmap image;
     int id;
-    Subject subjectdata;
+    Group subjectdata;
     MediaRecorder rec = new MediaRecorder();
     MediaPlayer mp = new MediaPlayer();
 
+
+    // static variables defined
     private static final int REQUEST_CODE = 1;
     private static final int CAMERA_REQUEST = 102;
     private static final int GALLERY_REQUEST = 101;
@@ -93,16 +105,17 @@ public class Add_Edit_Note extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_note);
         ButterKnife.bind(this);
+
+        //Intent to get the values
+
         Intent i=getIntent();
         from=i.getStringExtra("from");
         name=i.getStringExtra("name");
         id=i.getIntExtra("SubjectID",-1);
-//        byte[] data = i.getByteArrayExtra("photo");
-//        if(data != null){
-//            image = DataConverter.convertByteArray2Bitmap(data);
-//            _pic.setImageBitmap(image);
-//            _pic.setVisibility(View.VISIBLE);
-//        }
+
+
+        // Setting icons visibility of screen menu
+
         img_left.setVisibility(View.VISIBLE);
         img_icon.setVisibility(View.GONE);
         img_left.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_ios_24));
@@ -111,11 +124,13 @@ public class Add_Edit_Note extends AppCompatActivity {
 
 
         if(from.equalsIgnoreCase("new")){
+
             img_right.setVisibility(View.GONE);
 
             save.setText("Save");
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             listener = new LocationListener() {
+
                 @Override
                 public void onLocationChanged(Location location) {
 
@@ -139,16 +154,35 @@ public class Add_Edit_Note extends AppCompatActivity {
                 }
             };
 
-            if (!hasLocationPermission())
-                requestLocationPermission();
+            if (!isPermission())
+                permissionAskedForLocFnc();
             else
-                UpdateLocation();
+                fetchLocationUpdtFnc();
 
         }else {
             img_right.setVisibility(View.VISIBLE);
             img_right.setImageDrawable(getResources().getDrawable(R.drawable.delete_white));
             save.setText("Update");
-            UpdateNotes();
+
+            int id = getIntent().getIntExtra("noteID",-1);
+            if (id != -1){
+                Note note = Database.getInstance(this).noteDeo().getSpecficNote(id);
+                new_title.setText(note.getTitle());
+                note_description.setText(note.getDescription());
+                byte[] data = note.getImage();
+                pathAudio=note.getAudio();
+                if(data != null){
+                    image = DataConverter.convertByteArray2Bitmap(data);
+                    _pic.setImageBitmap(image);
+                    _pic.setVisibility(View.VISIBLE);
+                }
+                if(pathAudio!=null){
+                    voice_picker.setVisibility(View.VISIBLE);
+                }
+                Group sub = Database.getInstance(this).groupDeo().getSubject(note.getSubject_fk()).get(0);
+                subjectdata=sub;
+
+            }
 
 
         }
@@ -165,15 +199,31 @@ public class Add_Edit_Note extends AppCompatActivity {
         int id = getIntent().getIntExtra("noteID",-1);
         if (id != -1) {
             Database.getInstance(this).noteDeo().deleteNote(Database.getInstance(this).noteDeo().getSpecficNote(id));
+            categoryNoteAdapter.notifyDataSetChanged();
             BackClick();
         }
     }
 
     @OnClick(R.id.save)
     public void Save_editNote(){
+        boolean temp = false;
+
+        if (new_title.getText().toString().trim().length() == 0) {
+
+            new_title.setError("Please enter title");
+            new_title.requestFocus();
+            temp = false;
+
+        }else if(note_description.getText().toString().trim().length() == 0) {
+
+            note_description.setError("Please enter description");
+            note_description.requestFocus();
+            temp = false;
+        }
+        temp = true;
 
         if(from.equalsIgnoreCase("new")) {
-            if (CheckFields()) {
+            if (temp) {
                 Note note;
                 if (image != null) {
                     if (userlocation == null) {
@@ -201,14 +251,14 @@ public class Add_Edit_Note extends AppCompatActivity {
 
             }
         }else {
-            if(CheckFields()) {
+            if(temp) {
                 int id = getIntent().getIntExtra("noteID",-1);
                 if (id != -1) {
                     Note note = Database.getInstance(this).noteDeo().getSpecficNote(id);
                     note.setTitle(new_title.getText().toString());
                     note.setDescription(note_description.getText().toString());
                     note.setAudio(pathAudio);
-                    note.setSubject_fk(subjectdata.getSubject_id());
+                    note.setSubject_fk(subjectdata.getGroup_id());
                     if(image != null){
                         note.setImage(DataConverter.convertImage2ByteArray(image));
                     }
@@ -224,69 +274,70 @@ public class Add_Edit_Note extends AppCompatActivity {
         }
     }
 
-    private void UpdateNotes() {
+    private void notesUpdatingFnc() {
 
-        int id = getIntent().getIntExtra("noteID",-1);
-        if (id != -1){
-            Note note = Database.getInstance(this).noteDeo().getSpecficNote(id);
-            new_title.setText(note.getTitle());
-            note_description.setText(note.getDescription());
-            byte[] data = note.getImage();
-            pathAudio=note.getAudio();
-            if(data != null){
-                image = DataConverter.convertByteArray2Bitmap(data);
-                _pic.setImageBitmap(image);
-                _pic.setVisibility(View.VISIBLE);
-            }
-            if(pathAudio!=null){
-                voice_picker.setVisibility(View.VISIBLE);
-            }
-            Subject sub = Database.getInstance(this).subjectDeo().getSubject(note.getSubject_fk()).get(0);
-             subjectdata=sub;
 
-        }
     }
 
-    private void UpdateLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+    private void fetchLocationUpdtFnc() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, listener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                5000, 0,
+                listener);
     }
 
-    private void requestLocationPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+
+
+
+
+    private void permissionAskedForLocFnc() {
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}
+        , REQUEST_CODE);
     }
 
-    private boolean hasLocationPermission() {
-        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+
+
+
+
+
+    private boolean isPermission() {
+        return ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
+
+
+
+
+
+//
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
 
         if (REQUEST_CODE == requestCode) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, listener);
+            if (ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED) {
+
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                        5000,
+                        0,
+                        listener);
             }
         }
 
     }
 
-    public boolean CheckFields(){
-
-        if (new_title.getText().toString().trim().length() == 0) {
-            new_title.setError("Please enter title");
-            new_title.requestFocus();
-            return false;
-
-        }else if(note_description.getText().toString().trim().length() == 0) {
-
-            note_description.setError("Please enter description");
-            note_description.requestFocus();
-            return false;
-        }
-        return true;
-
+    public boolean Validate(){
+        return false;
 
     }
 
@@ -295,24 +346,27 @@ public class Add_Edit_Note extends AppCompatActivity {
         super.onActivityResult(reqCode, resultCode, data);
         if (reqCode == CAMERA_REQUEST && resultCode == RESULT_OK)
         {
+
             image = (Bitmap) data.getExtras().get("data");
          _pic.setImageBitmap(image);
            _pic.setVisibility(View.VISIBLE);
-
         }
         else if(reqCode == 112 && resultCode == RESULT_OK){
             pathAudio = data.getStringExtra("audio");
             voice_picker.setVisibility(View.VISIBLE);
-
         }
         else if(reqCode == GALLERY_REQUEST && resultCode == RESULT_OK){
+
+
+
 
             Uri uri = data.getData();
             try {
                 image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
                _pic.setImageBitmap(image);
                _pic.setVisibility(View.VISIBLE);
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
             }
@@ -320,11 +374,13 @@ public class Add_Edit_Note extends AppCompatActivity {
         }
         else if (reqCode == 11){
             if(resultCode == RESULT_OK) {
+
                 int subjectID = data.getIntExtra("SubjectID",-1);
                 id=subjectID;
                 if(subjectID != -1){
-                    for (Subject sub: Database.getInstance(this).subjectDeo().getAllSubject()) {
-                        if(sub.getSubject_id() == subjectID){
+
+                    for (Group sub: Database.getInstance(this).subjectDeo().getAllSubject()) {
+                        if(sub.getGroup_id() == subjectID){
                             subjectdata = sub;
                         }
                     }
@@ -336,7 +392,15 @@ public class Add_Edit_Note extends AppCompatActivity {
 
         }
     }
-    public void gallery() {
+    public void tempfunc() {
+
+
+    }
+
+
+    @OnClick(R.id.image_picker)
+    public void getIamge()
+    {
 
         final CharSequence[] items = { "Take Photo", "Choose from Library","Record Audio","Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -348,9 +412,12 @@ public class Add_Edit_Note extends AppCompatActivity {
 
                 if (items[item].equals("Take Photo")) {
 
-                    CaptureImage();
+                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 } else if (items[item].equals("Choose from Library")) {
-                    OpenGallery();
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/*");
+                    startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
                 } else if(items[item].equals("Record Audio")){
                     Intent i=new Intent(getApplicationContext(),AudioActivity.class);
                     i.putExtra("from","new");
@@ -363,29 +430,6 @@ public class Add_Edit_Note extends AppCompatActivity {
             }
         });
         builder.show();
-
-    }
-
-    public void CaptureImage() {
-
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent, CAMERA_REQUEST);
-    }
-
-    public void OpenGallery() {
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
-    }
-    private void selectImage() {
-        gallery();
-
-    }
-    @OnClick(R.id.image_picker)
-    public void getIamge()
-    {
-
-        selectImage();
     }
     @OnClick(R.id.select_subject)
     public void selectSubject() {

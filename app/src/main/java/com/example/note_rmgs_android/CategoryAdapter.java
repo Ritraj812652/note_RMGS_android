@@ -1,8 +1,7 @@
-package com.example.note_rmgs_android.Adapter;
+package com.example.note_rmgs_android;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +11,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.note_rmgs_android.Category_Notes;
-import com.example.note_rmgs_android.Models.Subject;
-import com.example.note_rmgs_android.R;
-
 import java.util.List;
 
 public abstract class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Viewholder> {
     public Context context;
-    public List<Subject> list;
-    public CategoryAdapter(Context context, List<Subject> allSubject) {
+    public List<Group> list;
+    public CategoryAdapter(Context context, List<Group> allGroup) {
         this.context = context;
-        this.list = allSubject;
+        this.list = allGroup;
     }
+
+
 
     @NonNull
     @Override
@@ -33,16 +30,23 @@ public abstract class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapt
         return new Viewholder(itemview);
     }
 
+
+
+
+
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.Viewholder holder, @SuppressLint("RecyclerView") int position) {
         holder.category_title.setText(list.get(position).getName());
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteCategory(position);
+                deleteTheItem(position);
             }
         });
     }
+
+
+
 
     @Override
     public int getItemCount() {
@@ -60,12 +64,17 @@ public abstract class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapt
             itemView.setOnClickListener(this);
         }
 
+
+
         @Override
         public void onClick(View v) {
-            selectCategory(getAdapterPosition());
+            selectTheItem(getAdapterPosition());
         }
     }
 
-    public abstract void deleteCategory(int pos);
-    public abstract void selectCategory(int pos);
+
+
+
+    public abstract void deleteTheItem(int pos);
+    public abstract void selectTheItem(int pos);
 }

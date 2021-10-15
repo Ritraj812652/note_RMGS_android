@@ -2,7 +2,6 @@ package com.example.note_rmgs_android;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
@@ -18,11 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.note_rmgs_android.Adapter.CategoryAdapter;
-import com.example.note_rmgs_android.Dao.SubjectD;
+import com.example.note_rmgs_android.Database.GroupDao;
 import com.example.note_rmgs_android.Database.Database;
-import com.example.note_rmgs_android.Models.Note;
-import com.example.note_rmgs_android.Models.Subject;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,17 +30,22 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.category_recycler)
     RecyclerView category_recycler;
+
     @BindView(R.id.no_categories)
     RelativeLayout no_categories;
+
     @BindView(R.id.txt_heading)
     TextView txt_heading;
+
     @BindView(R.id.img_left)
     ImageView img_left;
+
     @BindView(R.id.img_icon)
     ImageView img_icon;
+
     @BindView(R.id.img_right)
     ImageView img_right;
-    List<Subject> mlist;
+    List<Group> mlist;
     Boolean title_sort = false;
     CategoryAdapter categoryAdapter;
 
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        SubjectD dao = Database.getInstance(getApplicationContext()).subjectDeo();
+        GroupDao dao = Database.getInstance(getApplicationContext()).groupDeo();
         mlist = dao.getAllSubject();
         if(mlist.size()==0){
             no_categories.setVisibility(View.VISIBLE);
@@ -83,8 +84,10 @@ public class MainActivity extends AppCompatActivity {
             category_recycler.setVisibility(View.VISIBLE);
         }
         categoryAdapter= new CategoryAdapter(this, mlist) {
+
+
             @Override
-            public void deleteCategory(int pos) {
+            public void deleteTheItem(int pos) {
                 final AlertDialog.Builder mainDialog = new AlertDialog.Builder(MainActivity.this);
                 LayoutInflater inflater = (LayoutInflater)getApplicationContext() .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View dialogView = inflater.inflate(R.layout.alert_dialog, null);
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //delete item
-                        SubjectD dao = Database.getInstance(getApplicationContext()).subjectDeo();
+                        GroupDao dao = Database.getInstance(getApplicationContext()).groupDeo();
                        dao.deleteSubject( list.get(pos));
                         list.remove(pos);
                         categoryAdapter.notifyDataSetChanged();
@@ -126,18 +129,18 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void selectCategory(int pos) {
+            public void selectTheItem(int pos) {
                 int id = getIntent().getIntExtra("noteID",-1);
                 if (id != -1) {
                     Note n = Database.getInstance(getApplicationContext()).noteDeo().getSpecficNote(id);
-                    n.setSubject_fk(list.get(pos).getSubject_id());
+                    n.setSubject_fk(list.get(pos).getGroup_id());
                     Database.getInstance(getApplicationContext()).noteDeo().updateNote(n);
                     Toast.makeText(getApplicationContext(),"Note moved successfully.",Toast.LENGTH_SHORT).show();
                 }
                     Intent i=new Intent(context, Category_Notes.class);
                     i.putExtra("name",list.get(pos).getName());
                     i.putExtra("ID",pos);
-                    i.putExtra("SubjectID",list.get(pos).getSubject_id());
+                    i.putExtra("SubjectID",list.get(pos).getGroup_id());
                     startActivity(i);
 
 
@@ -181,10 +184,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //save item
-                Subject subject = new Subject();
-                subject.setName(sub.getText().toString());
-                SubjectD dao = Database.getInstance(getApplicationContext()).subjectDeo();
-                dao.insertSubject(subject);
+                Group group = new Group();
+                group.setName(sub.getText().toString());
+                GroupDao dao = Database.getInstance(getApplicationContext()).groupDeo();
+                dao.insertSubject(group);
                 Toast.makeText(getApplicationContext(),"Data Added",Toast.LENGTH_LONG).show();
                 categoryAdapter.list.clear();
                 categoryAdapter.list.addAll(dao.getAllSubject());

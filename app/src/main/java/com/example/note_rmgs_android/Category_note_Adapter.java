@@ -1,9 +1,7 @@
-package com.example.note_rmgs_android.Adapter;
+package com.example.note_rmgs_android;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,27 +12,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.note_rmgs_android.Add_Edit_Note;
-import com.example.note_rmgs_android.MapsActivity;
-import com.example.note_rmgs_android.Models.Note;
-import com.example.note_rmgs_android.Models.Subject;
-import com.example.note_rmgs_android.R;
-
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Adapter.Viewholder> {
     public Context context;
     public List<Note> list;
-    public List<Subject> subjects;
+    public List<Group> groups;
 
 
-    public Category_note_Adapter(Context context, List<Note> list,List<Subject> subjects) {
+    public Category_note_Adapter(Context context, List<Note> list,List<Group> groups) {
         this.context = context;
         this.list = list;
-        this.subjects=subjects;
+        this.groups=groups;
     }
+
+    // implement view holder
 
     @NonNull
     @Override
@@ -92,10 +85,10 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
 
                 String name = "";
                 int id = -1;
-                for (Subject sub : subjects) {
-                    if (sub.getSubject_id() == list.get(getAdapterPosition()).getSubject_fk()) {
+                for (Group sub : groups) {
+                    if (sub.getGroup_id() == list.get(getAdapterPosition()).getSubject_fk()) {
                         name = sub.getName();
-                        id = sub.getSubject_id();
+                        id = sub.getGroup_id();
                     }
                 }
                 Intent i = new Intent(context, Add_Edit_Note.class);

@@ -3,18 +3,13 @@ package com.example.note_rmgs_android;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,21 +17,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.note_rmgs_android.Adapter.Category_note_Adapter;
-import com.example.note_rmgs_android.Dao.NoteD;
-import com.example.note_rmgs_android.Dao.SubjectD;
+import com.example.note_rmgs_android.Database.NoteD;
 import com.example.note_rmgs_android.Database.Database;
-import com.example.note_rmgs_android.Models.Note;
-import com.example.note_rmgs_android.Models.Subject;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -111,7 +97,7 @@ public class Category_Notes extends AppCompatActivity {
 
             }
         });
-        categoryNoteAdapter=new Category_note_Adapter(this,mlist,Database.getInstance(getApplicationContext()).subjectDeo().getAllSubject());
+        categoryNoteAdapter=new Category_note_Adapter(this,mlist,Database.getInstance(getApplicationContext()).groupDeo().getAllSubject());
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(),2);
         category_note_recycler.setLayoutManager(mLayoutManager);
         category_note_recycler.setAdapter(categoryNoteAdapter);

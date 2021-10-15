@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 
 import com.example.note_rmgs_android.Database.Database;
-import com.example.note_rmgs_android.Models.Note;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -57,7 +56,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .title(note.getTitle())
                     .snippet("Content " + note.getDescription()+" Date "+date);
             mMap.addMarker(options);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12.0f));
         }
 
     }

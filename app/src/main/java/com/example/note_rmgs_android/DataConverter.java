@@ -1,4 +1,4 @@
-package com.example.note_rmgs_android.Utils;
+package com.example.note_rmgs_android;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +11,11 @@ public class DataConverter {
         bitmap.compress(Bitmap.CompressFormat.JPEG,50,stream);
         return  stream.toByteArray();
     }
+
+
+
+
+
     public  static  Bitmap convertByteArray2Bitmap(byte [] array){
         return BitmapFactory.decodeByteArray(array,0,array.length);
     }

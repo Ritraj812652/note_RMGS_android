@@ -1,9 +1,10 @@
-package com.example.note_rmgs_android.Models;
+package com.example.note_rmgs_android;
 
 import static androidx.room.ForeignKey.CASCADE;
 
 import androidx.room.*;
-@Entity(foreignKeys = @ForeignKey(entity = Subject.class,parentColumns = "subject_id",childColumns = "subject_fk",onDelete = CASCADE))
+
+@Entity(foreignKeys = @ForeignKey(entity = Group.class,parentColumns = "group_id",childColumns = "subject_fk",onDelete = CASCADE))
 public class Note {
     @PrimaryKey(autoGenerate = true)
     private int note_id;
