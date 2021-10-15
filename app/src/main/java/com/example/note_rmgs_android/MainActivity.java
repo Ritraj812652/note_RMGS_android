@@ -28,22 +28,16 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
-    @BindView(R.id.category_recycler)
     RecyclerView category_recycler;
 
-    @BindView(R.id.no_categories)
     RelativeLayout no_categories;
 
-    @BindView(R.id.txt_heading)
     TextView txt_heading;
 
-    @BindView(R.id.img_left)
     ImageView img_left;
 
-    @BindView(R.id.img_icon)
     ImageView img_icon;
 
-    @BindView(R.id.img_right)
     ImageView img_right;
 
     List<Group> listViews;
@@ -55,6 +49,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        category_recycler = findViewById(R.id.category_recycler);
+        no_categories = findViewById(R.id.no_categories);
+        txt_heading = findViewById(R.id.txt_heading);
+        img_left = findViewById(R.id.img_left);
+        img_icon = findViewById(R.id.img_icon);
+        img_right = findViewById(R.id.img_right);
+
+        img_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddSubject();
+            }
+        });
+
+        img_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sort();
+            }
+        });
+
         ButterKnife.bind(this);
         int id = getIntent().getIntExtra("noteID",-1);
         if (id != -1) {
@@ -153,7 +169,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    @OnClick(R.id.img_left)
+
+//    @OnClick(R.id.img_left)
     public void sort(){
 
         if(title_sort){
@@ -168,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         categoryAdapter.notifyDataSetChanged();
     }
 
-    @OnClick(R.id.img_right)
+//    @OnClick(R.id.img_right)
     public void AddSubject() {
         final AlertDialog.Builder mainDialog = new AlertDialog.Builder(MainActivity.this);
         LayoutInflater inflater = (LayoutInflater)getApplicationContext() .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
