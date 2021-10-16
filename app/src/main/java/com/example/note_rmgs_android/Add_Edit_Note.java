@@ -74,7 +74,6 @@ public class Add_Edit_Note extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_note);
-        ButterKnife.bind(this);
 
         txt_heading = findViewById(R.id.txt_heading);
         new_title = findViewById(R.id.new_title);
@@ -83,7 +82,7 @@ public class Add_Edit_Note extends AppCompatActivity {
         voice_picker = findViewById(R.id.voice_picker);
         view_layout = findViewById(R.id.view_layout);
         img_left = findViewById(R.id.img_left);
-        img_icon = findViewById(R.id.icon);
+        img_icon = findViewById(R.id.img_icon);
         img_right = findViewById(R.id.img_right);
         _pic = findViewById(R.id._pic);
         save = findViewById(R.id.save);
@@ -119,14 +118,14 @@ public class Add_Edit_Note extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                    List<Note> notes = Database.getInstance(getApplicationContext()).noteDeo().getAllNotes();
-                    int id = getIntent().getIntExtra("noteID",-1);
-                    if (id != -1) {
-                        Database.getInstance(getApplicationContext()).noteDeo().deleteNote(Database.getInstance(getApplicationContext()).noteDeo().getSpecficNote(id));
-                        categoryNoteAdapter.notifyDataSetChanged();
-                        finish();
-                    }
+                List<Note> notes = Database.getInstance(getApplicationContext()).noteDeo().getAllNotes();
+                int id = getIntent().getIntExtra("noteID",-1);
+                if (id != -1) {
+                    Database.getInstance(getApplicationContext()).noteDeo().deleteNote(Database.getInstance(getApplicationContext()).noteDeo().getSpecficNote(id));
+                    categoryNoteAdapter.notifyDataSetChanged();
+                    finish();
                 }
+            }
 
         });
 
@@ -147,14 +146,23 @@ public class Add_Edit_Note extends AppCompatActivity {
         select_subject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectSubject();
+
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                int id = getIntent().getIntExtra("noteID", -1);
+                if (id != -1) {
+                    i.putExtra("noteID", id);
+                    startActivity(i);
+                }
             }
         });
 
         voice_picker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playAudio();
+                Intent i=new Intent(getApplicationContext(),AudioActivity.class);
+                i.putExtra("from","update");
+                i.putExtra("path",pathAudio);
+                startActivityForResult(i,112);
             }
         });
         if(from.equalsIgnoreCase("new")){
@@ -222,23 +230,8 @@ public class Add_Edit_Note extends AppCompatActivity {
         }
     }
 
-//    @OnClick(R.id.img_left)
-    public void BackClick(){
-        finish();
-    }
 
-   // @OnClick(R.id.img_right)
-    public void deleteClick(){
-        List<Note> notes = Database.getInstance(this).noteDeo().getAllNotes();
-        int id = getIntent().getIntExtra("noteID",-1);
-        if (id != -1) {
-            Database.getInstance(this).noteDeo().deleteNote(Database.getInstance(this).noteDeo().getSpecficNote(id));
-            categoryNoteAdapter.notifyDataSetChanged();
-            BackClick();
-        }
-    }
 
-   // @OnClick(R.id.save)
     public void Save_editNote(){
         boolean temp = false;
 
@@ -308,10 +301,6 @@ public class Add_Edit_Note extends AppCompatActivity {
         }
     }
 
-    private void notesUpdatingFnc() {
-
-
-    }
 
 
     private void fetchLocationUpdtFnc() {
@@ -350,7 +339,7 @@ public class Add_Edit_Note extends AppCompatActivity {
 
 
 
-//
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
@@ -370,10 +359,6 @@ public class Add_Edit_Note extends AppCompatActivity {
 
     }
 
-    public boolean Validate(){
-        return false;
-
-    }
 
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
@@ -426,13 +411,8 @@ public class Add_Edit_Note extends AppCompatActivity {
 
         }
     }
-    public void tempfunc() {
 
 
-    }
-
-
-    //@OnClick(R.id.image_picker)
     public void getIamge()
     {
 
@@ -465,26 +445,6 @@ public class Add_Edit_Note extends AppCompatActivity {
         });
         builder.show();
     }
-   // @OnClick(R.id.select_subject)
-    public void selectSubject() {
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        int id = getIntent().getIntExtra("noteID", -1);
-        if (id != -1) {
-            i.putExtra("noteID", id);
-            startActivity(i);
-        }
-    }
-
-   // @OnClick(R.id.voice_picker)
-    public void playAudio(){
-            Intent i=new Intent(getApplicationContext(),AudioActivity.class);
-            i.putExtra("from","update");
-            i.putExtra("path",pathAudio);
-            startActivityForResult(i,112);
-        }
-
-
-
 
 
 
