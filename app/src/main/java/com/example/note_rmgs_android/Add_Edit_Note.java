@@ -40,42 +40,12 @@ import butterknife.OnClick;
 public class Add_Edit_Note extends AppCompatActivity {
 
 
-    // adding binding using butterKn library
-//    @BindView(R.id.txt_heading)
-    TextView txt_heading;
-
-//    @BindView(R.id.new_title)
-    EditText new_title;
-
-//    @BindView(R.id.note_description)
-    EditText note_description;
-
-//    @BindView(R.id.image_picker)
-    ImageView image_picker;
-
-//    @BindView(R.id.voice_picker)
-    ImageView voice_picker;
-
-//    @BindView(R.id.view_layout)
+    TextView txt_heading,select_subject;
+    EditText new_title,note_description;
+    ImageView image_picker,voice_picker,img_left;
     LinearLayout view_layout;
-
-//    @BindView(R.id.img_left)
-    ImageView img_left;
-
-//    @BindView(R.id.img_icon)
-    ImageView img_icon;
-
-//    @BindView(R.id.img_right)
-    ImageView img_right;
-
-//    @BindView(R.id._pic)
-    ImageView _pic;
-
-//    @BindView(R.id.save)
+    ImageView img_icon,img_right,_pic;
     Button save;
-
-//    @BindView(R.id.select_subject)
-    TextView select_subject;
 
     // Initiating properties
 
@@ -145,6 +115,40 @@ public class Add_Edit_Note extends AppCompatActivity {
             }
         });
 
+        img_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteClick();
+            }
+        });
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Save_editNote();
+            }
+        });
+
+        image_picker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getIamge();
+            }
+        });
+
+        select_subject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectSubject();
+            }
+        });
+
+        voice_picker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playAudio();
+            }
+        });
         if(from.equalsIgnoreCase("new")){
 
             img_right.setVisibility(View.GONE);
@@ -215,7 +219,7 @@ public class Add_Edit_Note extends AppCompatActivity {
         finish();
     }
 
-    @OnClick(R.id.img_right)
+   // @OnClick(R.id.img_right)
     public void deleteClick(){
         List<Note> notes = Database.getInstance(this).noteDeo().getAllNotes();
         int id = getIntent().getIntExtra("noteID",-1);
@@ -226,7 +230,7 @@ public class Add_Edit_Note extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.save)
+   // @OnClick(R.id.save)
     public void Save_editNote(){
         boolean temp = false;
 
@@ -420,7 +424,7 @@ public class Add_Edit_Note extends AppCompatActivity {
     }
 
 
-    @OnClick(R.id.image_picker)
+    //@OnClick(R.id.image_picker)
     public void getIamge()
     {
 
@@ -453,7 +457,7 @@ public class Add_Edit_Note extends AppCompatActivity {
         });
         builder.show();
     }
-    @OnClick(R.id.select_subject)
+   // @OnClick(R.id.select_subject)
     public void selectSubject() {
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         int id = getIntent().getIntExtra("noteID", -1);
@@ -463,7 +467,7 @@ public class Add_Edit_Note extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.voice_picker)
+   // @OnClick(R.id.voice_picker)
     public void playAudio(){
             Intent i=new Intent(getApplicationContext(),AudioActivity.class);
             i.putExtra("from","update");
