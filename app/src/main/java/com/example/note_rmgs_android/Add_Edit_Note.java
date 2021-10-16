@@ -44,37 +44,37 @@ public class Add_Edit_Note extends AppCompatActivity {
 //    @BindView(R.id.txt_heading)
     TextView txt_heading;
 
-    @BindView(R.id.new_title)
+//    @BindView(R.id.new_title)
     EditText new_title;
 
-    @BindView(R.id.note_description)
+//    @BindView(R.id.note_description)
     EditText note_description;
 
-    @BindView(R.id.image_picker)
+//    @BindView(R.id.image_picker)
     ImageView image_picker;
 
-    @BindView(R.id.voice_picker)
+//    @BindView(R.id.voice_picker)
     ImageView voice_picker;
 
-    @BindView(R.id.view_layout)
+//    @BindView(R.id.view_layout)
     LinearLayout view_layout;
 
-    @BindView(R.id.img_left)
+//    @BindView(R.id.img_left)
     ImageView img_left;
 
-    @BindView(R.id.img_icon)
+//    @BindView(R.id.img_icon)
     ImageView img_icon;
 
-    @BindView(R.id.img_right)
+//    @BindView(R.id.img_right)
     ImageView img_right;
 
-    @BindView(R.id._pic)
+//    @BindView(R.id._pic)
     ImageView _pic;
 
-    @BindView(R.id.save)
+//    @BindView(R.id.save)
     Button save;
 
-    @BindView(R.id.select_subject)
+//    @BindView(R.id.select_subject)
     TextView select_subject;
 
     // Initiating properties
@@ -138,6 +138,12 @@ public class Add_Edit_Note extends AppCompatActivity {
         voice_picker.setVisibility(View.GONE);
 
 
+        img_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BackClick();
+            }
+        });
 
         if(from.equalsIgnoreCase("new")){
 
@@ -204,7 +210,7 @@ public class Add_Edit_Note extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.img_left)
+//    @OnClick(R.id.img_left)
     public void BackClick(){
         finish();
     }
