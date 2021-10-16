@@ -30,28 +30,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class Category_Notes extends AppCompatActivity {
-    @BindView(R.id.txt_heading)
-    TextView txt_heading;
 
-    @BindView(R.id.img_left)
-    ImageView img_left;
-
-    @BindView(R.id.img_icon)
-    ImageView img_icon;
-
-    @BindView(R.id.img_right)
-    ImageView img_right;
-
-    @BindView(R.id.search_txt)
+    TextView txt_heading,cancel;
+    ImageView img_left,img_icon,img_right;
     EditText search_txt;
-
-    @BindView(R.id.cancel)
-    TextView cancel;
-
-    @BindView(R.id.category_note_recycler)
     RecyclerView category_note_recycler;
-
-    @BindView(R.id.no_notes)
     RelativeLayout no_notes;
 
     String name="";
@@ -66,13 +49,22 @@ public class Category_Notes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_notes);
         ButterKnife.bind(this);
+        img_left = findViewById(R.id.img_left);
+        img_right = findViewById(R.id.img_right);
+        img_icon = findViewById(R.id.img_icon);
+        txt_heading = findViewById(R.id.txt_heading);
+        search_txt = findViewById(R.id.search_txt);
+        cancel = findViewById(R.id.cancel);
+        category_note_recycler = findViewById(R.id.category_note_recycler);
+        no_notes = findViewById(R.id.no_notes);
+
         img_left.setVisibility(View.VISIBLE);
         img_right.setVisibility(View.VISIBLE);
         img_icon.setVisibility(View.VISIBLE);
+
         img_left.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_ios_24));
         img_right.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_add_24));
         img_icon.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_sort_by_alpha_24));
-
 
 
         Intent i=getIntent();
@@ -81,6 +73,35 @@ public class Category_Notes extends AppCompatActivity {
         txt_heading.setText(""+name);
         NoteD dao = Database.getInstance(getApplicationContext()).noteDeo();
         mlist = dao.getCatNotes(id);
+
+        img_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sort();
+            }
+        });
+
+        img_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddNote();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel();
+            }
+        });
+
+        img_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BackClick();
+            }
+        });
+
         if(mlist.size()==0){
             no_notes.setVisibility(View.VISIBLE);
             category_note_recycler.setVisibility(View.GONE);
@@ -116,7 +137,7 @@ public class Category_Notes extends AppCompatActivity {
     }
     // sort
 
-    @OnClick(R.id.img_icon)
+//    @OnClick(R.id.img_icon)
     public void sort(){
         PopupMenu popup = new PopupMenu(Category_Notes.this, img_icon);
         //Inflating the Popup using xml file
@@ -158,7 +179,7 @@ public class Category_Notes extends AppCompatActivity {
         });
         popup.show();
     }
-    @OnClick(R.id.img_right)
+//    @OnClick(R.id.img_right)
     public void AddNote(){
         Intent i=new Intent(getApplicationContext(),Add_Edit_Note.class);
         i.putExtra("from","new");
@@ -166,7 +187,7 @@ public class Category_Notes extends AppCompatActivity {
         i.putExtra("SubjectID",id);
         startActivity(i);
     }
-    @OnClick(R.id.cancel)
+//    @OnClick(R.id.cancel)
     public void cancel(){
         mlist =  Database.getInstance(this).noteDeo().getCatNotes(id);
         search_txt.setText("");
@@ -176,7 +197,7 @@ public class Category_Notes extends AppCompatActivity {
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 
-    @OnClick(R.id.img_left)
+//    @OnClick(R.id.img_left)
     public void BackClick(){
         Intent i=new Intent(getApplicationContext(),MainActivity.class);
         startActivity(i);
