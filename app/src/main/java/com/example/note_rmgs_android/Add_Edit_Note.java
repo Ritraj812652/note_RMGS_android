@@ -41,7 +41,7 @@ public class Add_Edit_Note extends AppCompatActivity {
 
 
     // adding binding using butterKn library
-    @BindView(R.id.txt_heading)
+//    @BindView(R.id.txt_heading)
     TextView txt_heading;
 
     @BindView(R.id.new_title)
@@ -106,6 +106,21 @@ public class Add_Edit_Note extends AppCompatActivity {
         setContentView(R.layout.activity_add_edit_note);
         ButterKnife.bind(this);
 
+        txt_heading = findViewById(R.id.txt_heading);
+        new_title = findViewById(R.id.new_title);
+        note_description = findViewById(R.id.note_description);
+        image_picker = findViewById(R.id.image_picker);
+        voice_picker = findViewById(R.id.voice_picker);
+        view_layout = findViewById(R.id.view_layout);
+        img_left = findViewById(R.id.img_left);
+        img_icon = findViewById(R.id.icon);
+        img_right = findViewById(R.id.img_right);
+        _pic = findViewById(R.id._pic);
+        save = findViewById(R.id.save);
+        select_subject = findViewById(R.id.select_subject);
+
+
+
         //Intent to get the values
 
         Intent i=getIntent();
@@ -121,6 +136,7 @@ public class Add_Edit_Note extends AppCompatActivity {
         img_left.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_ios_24));
         txt_heading.setText(""+name);
         voice_picker.setVisibility(View.GONE);
+
 
 
         if(from.equalsIgnoreCase("new")){
