@@ -48,7 +48,6 @@ public class Category_Notes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_notes);
-        ButterKnife.bind(this);
         img_left = findViewById(R.id.img_left);
         img_right = findViewById(R.id.img_right);
         img_icon = findViewById(R.id.img_icon);
