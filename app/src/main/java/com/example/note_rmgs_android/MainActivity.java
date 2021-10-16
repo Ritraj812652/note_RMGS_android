@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
         int id = getIntent().getIntExtra("noteID",-1);
         if (id != -1) {
             txt_heading.setText("Move Note");
