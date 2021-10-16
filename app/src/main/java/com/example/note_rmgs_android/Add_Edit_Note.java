@@ -111,15 +111,23 @@ public class Add_Edit_Note extends AppCompatActivity {
         img_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BackClick();
+                finish();
             }
         });
 
         img_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteClick();
-            }
+
+                    List<Note> notes = Database.getInstance(getApplicationContext()).noteDeo().getAllNotes();
+                    int id = getIntent().getIntExtra("noteID",-1);
+                    if (id != -1) {
+                        Database.getInstance(getApplicationContext()).noteDeo().deleteNote(Database.getInstance(getApplicationContext()).noteDeo().getSpecficNote(id));
+                        categoryNoteAdapter.notifyDataSetChanged();
+                        finish();
+                    }
+                }
+
         });
 
         save.setOnClickListener(new View.OnClickListener() {
