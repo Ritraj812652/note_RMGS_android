@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 public class AudioActivity extends AppCompatActivity {
     ImageView img_left;
@@ -163,7 +164,9 @@ public class AudioActivity extends AppCompatActivity {
         verifyStoragePermissions(this);
         String abc = getFilesDir().getAbsolutePath();
         File file= new File(abc);
-        path =file+"/audio.m4a";
+        long time = new Date().getTime();
+        String temp= ""+ time;
+        path =file+"/audio"+temp+".m4a";
         rec.setAudioSource(MediaRecorder.AudioSource.MIC);
         rec.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         rec.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
