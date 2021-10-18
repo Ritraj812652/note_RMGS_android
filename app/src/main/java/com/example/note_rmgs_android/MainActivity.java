@@ -23,10 +23,6 @@ import com.example.note_rmgs_android.Database.Database;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class MainActivity extends AppCompatActivity {
     RecyclerView category_recycler;
 

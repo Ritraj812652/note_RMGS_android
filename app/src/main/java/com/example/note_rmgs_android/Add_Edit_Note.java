@@ -33,10 +33,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class Add_Edit_Note extends AppCompatActivity {
 
 

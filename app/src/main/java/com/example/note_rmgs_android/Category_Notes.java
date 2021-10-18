@@ -25,10 +25,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class Category_Notes extends AppCompatActivity {
 
     TextView txt_heading,cancel;
@@ -136,7 +132,6 @@ public class Category_Notes extends AppCompatActivity {
     }
     // sort
 
-//    @OnClick(R.id.img_icon)
     public void sort(){
         PopupMenu popup = new PopupMenu(Category_Notes.this, img_icon);
         //Inflating the Popup using xml file
@@ -178,7 +173,7 @@ public class Category_Notes extends AppCompatActivity {
         });
         popup.show();
     }
-//    @OnClick(R.id.img_right)
+
     public void AddNote(){
         Intent i=new Intent(getApplicationContext(),Add_Edit_Note.class);
         i.putExtra("from","new");
@@ -186,7 +181,7 @@ public class Category_Notes extends AppCompatActivity {
         i.putExtra("SubjectID",id);
         startActivity(i);
     }
-//    @OnClick(R.id.cancel)
+
     public void cancel(){
         mlist =  Database.getInstance(this).noteDeo().getCatNotes(id);
         search_txt.setText("");
@@ -196,7 +191,6 @@ public class Category_Notes extends AppCompatActivity {
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 
-//    @OnClick(R.id.img_left)
     public void BackClick(){
         Intent i=new Intent(getApplicationContext(),MainActivity.class);
         startActivity(i);

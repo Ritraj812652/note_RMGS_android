@@ -21,26 +21,14 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class AudioActivity extends AppCompatActivity {
-    @BindView(R.id.img_left)
     ImageView img_left;
-    @BindView(R.id.img_icon)
     ImageView img_icon;
-    @BindView(R.id.img_right)
     ImageView img_right;
-    @BindView(R.id.Record)
     Button record;
-    @BindView(R.id.Play)
     Button play;
-    @BindView(R.id.Stop)
     Button stop;
-    @BindView(R.id.txt_heading)
     TextView txt_heading;
-    @BindView(R.id.save)
     Button save;
 
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
@@ -57,7 +45,67 @@ public class AudioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio);
-        ButterKnife.bind(this);
+
+        img_left = findViewById(R.id.img_left);
+        img_right = findViewById(R.id.img_right);
+        img_icon = findViewById(R.id.img_icon);
+
+        record = findViewById(R.id.Record);
+        play = findViewById(R.id.Play);
+        stop = findViewById(R.id.Stop);
+
+        txt_heading = findViewById(R.id.txt_heading);
+        save = findViewById(R.id.save);
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(from.equalsIgnoreCase("new")) {
+                    Intent intent = new Intent();
+                    intent.putExtra("audio", path);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }else {
+                    Intent intent = new Intent();
+                    intent.putExtra("audio", audio_path);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }
+        });
+
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if(from.equalsIgnoreCase("new")) {
+                        playOrStopRecording(path);
+                    }else {
+                        playOrStopRecording(audio_path);
+
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }            }
+        });
+
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mp.isPlaying()){
+
+                    mp.stop();
+                }
+            }
+        });
+
+        record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Record();
+            }
+        });
+
         img_left.setVisibility(View.VISIBLE);
         img_icon.setVisibility(View.GONE);
         img_right.setVisibility(View.GONE);
@@ -89,42 +137,7 @@ public class AudioActivity extends AppCompatActivity {
         record.setTag("record");
     }
 
-    @OnClick(R.id.save)
-    public void click(){
-        if(from.equalsIgnoreCase("new")) {
-            Intent intent = new Intent();
-            intent.putExtra("audio", path);
-            setResult(RESULT_OK, intent);
-            finish();
-        }else {
-            Intent intent = new Intent();
-            intent.putExtra("audio", audio_path);
-            setResult(RESULT_OK, intent);
-            finish();
-        }
-    }
 
-    @OnClick(R.id.Play)
-    public void Play(){
-        try {
-            if(from.equalsIgnoreCase("new")) {
-                playOrStopRecording(path);
-            }else {
-                playOrStopRecording(audio_path);
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @OnClick(R.id.Stop)
-    public void stopaudio(){
-        if(mp.isPlaying()){
-
-            mp.stop();
-        }
-    }
     public void playOrStopRecording(String path) throws IOException {
         if(mp.isPlaying()){
 
@@ -207,7 +220,6 @@ public class AudioActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @OnClick(R.id.Record)
     public void Record(){
         if(record.getTag() == "record"){
             try {
