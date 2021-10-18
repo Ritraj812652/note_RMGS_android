@@ -57,6 +57,37 @@ public class AudioActivity extends AppCompatActivity {
         txt_heading = findViewById(R.id.txt_heading);
         save = findViewById(R.id.save);
 
+        img_left.setVisibility(View.VISIBLE);
+        img_icon.setVisibility(View.GONE);
+        img_right.setVisibility(View.GONE);
+        img_left.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_ios_24));
+        txt_heading.setText("Recorder");
+
+        path=  "";
+        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
+        img_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        Intent i=getIntent();
+        from=i.getStringExtra("from");
+        audio_path=i.getStringExtra("path");
+
+        if(from.equalsIgnoreCase("new")){
+            record.setVisibility(View.VISIBLE);
+            save.setVisibility(View.VISIBLE);
+        }else {
+
+            record.setVisibility(View.GONE);
+            save.setVisibility(View.GONE);
+
+        }
+        record.setTag("record");
+
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,35 +137,6 @@ public class AudioActivity extends AppCompatActivity {
             }
         });
 
-        img_left.setVisibility(View.VISIBLE);
-        img_icon.setVisibility(View.GONE);
-        img_right.setVisibility(View.GONE);
-        img_left.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_ios_24));
-        txt_heading.setText("Recorder");
-
-        path=  "";
-        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
-        img_left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        Intent i=getIntent();
-        from=i.getStringExtra("from");
-        audio_path=i.getStringExtra("path");
-
-        if(from.equalsIgnoreCase("new")){
-            record.setVisibility(View.VISIBLE);
-            save.setVisibility(View.VISIBLE);
-        }else {
-
-            record.setVisibility(View.GONE);
-            save.setVisibility(View.GONE);
-
-        }
-        record.setTag("record");
     }
 
 
