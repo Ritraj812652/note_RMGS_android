@@ -3,6 +3,7 @@ package com.example.note_rmgs_android;
 import android.content.Context;
 import android.content.Intent;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +39,10 @@ public class Category_note_Adapter extends RecyclerView.Adapter<Category_note_Ad
 
     @Override
     public void onBindViewHolder(@NonNull Category_note_Adapter.Viewholder holder, int position) {
-        holder.note_title.setText(list.get(position).getTitle());
-        holder.note_description.setText(list.get(position).getDescription());
-        long millisecond = list.get(position).getCreated_date();
+        holder.note_title.setText(list.get(holder.getAdapterPosition()).getTitle());
+        holder.note_description.setText(list.get(holder.getAdapterPosition()).getDescription());
+//        Log.d("TAG", "onBindViewHolder: " + holder.getAdapterPosition());
+        long millisecond = list.get(holder.getAdapterPosition()).getCreated_date();
         String dateString = DateFormat.format("MMM d, h:mm a", new Date(millisecond)).toString();
         holder.note_date.setText(dateString);
 //        Random r = new Random();
