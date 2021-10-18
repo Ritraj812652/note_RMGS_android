@@ -45,6 +45,7 @@
         <entry key="app/src/main/res/layout/category_item.xml" value="0.21979166666666666" />
         <entry key="app/src/main/res/layout/category_note_item.xml" value="0.2203125" />
         <entry key="app/src/main/res/layout/header_layout.xml" value="0.2203125" />
+        <entry key="app/src/main/res/menu/sorting_menu.xml" value="0.21979166666666666" />
       </map>
     </option>
   </component>

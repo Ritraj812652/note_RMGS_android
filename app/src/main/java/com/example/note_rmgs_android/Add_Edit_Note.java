@@ -135,6 +135,8 @@ public class Add_Edit_Note extends AppCompatActivity {
         image_picker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!isPermissionImage())
+                    permissionAskedForImageFnc();
                 getIamge();
             }
         });
@@ -320,7 +322,16 @@ public class Add_Edit_Note extends AppCompatActivity {
     }
 
 
+    private boolean isPermissionImage() {
+        return ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+    }
 
+    private void permissionAskedForImageFnc() {
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.CAMERA}
+                , CAMERA_REQUEST);
+    }
 
 
 
