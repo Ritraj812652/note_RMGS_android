@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 final TextView cat_name=(TextView)dialogView.findViewById(R.id.cat_name);
                 final AlertDialog alertDialog = mainDialog.create();
                 alertDialog.show();
-                cat_name.setText("You want to delete this Category?");
+                cat_name.setText("You want to delete this '"+list.get(pos).getName() +"' Category?");
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
