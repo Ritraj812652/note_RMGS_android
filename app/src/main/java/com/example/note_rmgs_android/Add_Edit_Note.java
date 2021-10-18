@@ -193,7 +193,9 @@ public class Add_Edit_Note extends AppCompatActivity {
             };
 
             if (!isPermission())
-                permissionAskedForLocFnc();
+                ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}
+                    , REQUEST_CODE);
             else
                 fetchLocationUpdtFnc();
 
@@ -309,20 +311,6 @@ public class Add_Edit_Note extends AppCompatActivity {
                 5000, 0,
                 listener);
     }
-
-
-
-
-
-    private void permissionAskedForLocFnc() {
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}
-        , REQUEST_CODE);
-    }
-
-
-
-
 
 
 
